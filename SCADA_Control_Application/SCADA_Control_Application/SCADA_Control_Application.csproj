@@ -54,6 +54,7 @@
     <Compile Include="frmHMI.Designer.cs">
       <DependentUpon>frmHMI.cs</DependentUpon>
     </Compile>
+    <Compile Include="OPC.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simulator.cs" />
