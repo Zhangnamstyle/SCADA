@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DataLogging_Application.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="conString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=azg.asuscomm.com,49172;Initial Catalog=SCADADB;User Id=KIM;Password=abc123</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
