@@ -38,7 +38,7 @@ namespace DataLogging_Application
         {
             try
             {
-                string conUrl = "opc://KIM-PC/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
+                string conUrl = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
 
                 OPC myOPC = new OPC(conUrl);
                 string val = myOPC.readFromOPC();
@@ -46,10 +46,10 @@ namespace DataLogging_Application
 
                 using (SqlConnection con = new SqlConnection(Settings.Default.conString))
                 {
-                    SqlCommand cmd = new SqlCommand("INSERT INTO TEST(TestID) VALUES (@ID)");
+                    SqlCommand cmd = new SqlCommand("INSERT INTO TEST(TestTime,TestValue) VALUES (getdate(),@VALUE)");
                     cmd.CommandType = CommandType.Text;
                     cmd.Connection = con;
-                    cmd.Parameters.AddWithValue("@ID", val);
+                    cmd.Parameters.AddWithValue("@VALUE", Convert.ToDouble(val));
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();

@@ -15,6 +15,7 @@ namespace SCADA_Control_Application
         private double temp;
         private double u;
         private int count;
+        int cntTest = 0;
         OPC test;
 
         public frmHMI()
@@ -23,6 +24,7 @@ namespace SCADA_Control_Application
             InitParam();
             string opcURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
             test = new OPC(opcURL);
+            
         }
 
         private void InitParam()
@@ -35,6 +37,7 @@ namespace SCADA_Control_Application
             Simulator.ThetaT = 15.3089;
             Simulator.N = Simulator.calcN();
             Simulator.Tout_k = Simulator.envTemp;
+
             Controller.Kp = 1.20;
             Controller.Ti = 9;
             Controller.Sp = trackBar1.Value;
@@ -58,12 +61,17 @@ namespace SCADA_Control_Application
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
+            cntTest++;
             u = Controller.PI(temp);
             temp = Simulator.sim(u);
-            test.writeToOPC(temp);
-            chart1.Series["Series1"].Points.AddY(temp);
+            label2.Text = temp.ToString();
             count++;
+            if(cntTest >= 2)
+            {
+                test.writeToOPC(temp);
+                chart1.Series["Series1"].Points.AddY(temp);
+                cntTest = 0;
+            }
 
             
         }

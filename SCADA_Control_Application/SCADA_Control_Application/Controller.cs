@@ -28,8 +28,8 @@ namespace SCADA_Control_Application
 
             u = Kp * e * (Kp / Ti) * z;
 
-            if (u > 5) u = 5;
-            else if (u < 0) u = 0;
+            if (u > 5) { u = 5; }
+            else if  (u < 0) { u = 0; }
   
             return u;
         }
