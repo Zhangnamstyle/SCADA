@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using NationalInstruments;
+using NationalInstruments.Net;
 
 namespace SCADA_Control_Application
 {
@@ -18,7 +20,15 @@ namespace SCADA_Control_Application
 
         public void writeToOPC(double opcValue)
         {
-            
+            using (DataSocket ds = new DataSocket())
+            {
+                if (ds.IsConnected) ds.Disconnect();
+
+                ds.Connect(opcConURL,AccessMode.Write);
+                ds.Data.Value = opcValue;
+                ds.Update();
+
+            }
         }
     }
 }

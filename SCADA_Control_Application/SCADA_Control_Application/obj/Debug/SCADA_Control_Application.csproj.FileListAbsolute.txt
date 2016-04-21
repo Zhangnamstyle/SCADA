@@ -16,3 +16,10 @@ C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Ap
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.frmHMI.resources
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.Properties.Resources.resources
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.csproj.GenerateResource.Cache
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Common.dll
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Net.dll
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.NiLmClientDLL.dll
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.MStudioCLM.dll
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Common.xml
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Net.xml
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.exe.licenses

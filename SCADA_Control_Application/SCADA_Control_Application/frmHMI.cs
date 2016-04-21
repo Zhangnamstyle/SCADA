@@ -15,19 +15,18 @@ namespace SCADA_Control_Application
         private double temp;
         private double u;
         private int count;
-        
+        OPC test;
+
         public frmHMI()
         {
             InitializeComponent();
             InitParam();
+            string opcURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
+            test = new OPC(opcURL);
         }
 
         private void InitParam()
         {
-            
-
-
-           
 
             Simulator.envTemp = 21;
             Simulator.Kh = 3.87;
@@ -62,6 +61,7 @@ namespace SCADA_Control_Application
 
             u = Controller.PI(temp);
             temp = Simulator.sim(u);
+            test.writeToOPC(temp);
             chart1.Series["Series1"].Points.AddY(temp);
             count++;
 
