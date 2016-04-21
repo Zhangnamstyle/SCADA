@@ -18,7 +18,7 @@ namespace DataLogging_Application
         public string readFromOPC()
         {
             string OPCvalue = "";
-            using (DataSocket ds = new DataSocket)
+            using (DataSocket ds = new DataSocket()) 
             {
                 ds.Connect(opcConUrl, AccessMode.Read);
                 ds.Update();
