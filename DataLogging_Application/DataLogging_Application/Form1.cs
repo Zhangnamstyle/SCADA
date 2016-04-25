@@ -36,6 +36,12 @@ namespace DataLogging_Application
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+            timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
             try
             {
                 string conUrl = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
@@ -55,11 +61,10 @@ namespace DataLogging_Application
                     con.Close();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
-            
         }
     }
 }

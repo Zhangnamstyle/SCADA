@@ -23,3 +23,4 @@ C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Ap
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Common.xml
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Net.xml
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.exe.licenses
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.Form1.resources
