@@ -8,7 +8,7 @@ using NationalInstruments.DAQmx;
 
 namespace SCADA_Control_Application
 {
-    class IOCom
+    static class IOCom
     {
         public static string deviceName = "dev4";
         public static string lastException;

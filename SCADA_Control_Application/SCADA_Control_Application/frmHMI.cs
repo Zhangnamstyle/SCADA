@@ -23,6 +23,7 @@ namespace SCADA_Control_Application
         {
             InitializeComponent();
             InitParam();
+            IOCom.deviceName = "Dev3";
             string opcURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
             test = new OPC(opcURL);
             test.writeToOPC(20);
@@ -73,6 +74,8 @@ namespace SCADA_Control_Application
                 test.writeToOPC(temp);
                 chart1.Series["Series1"].Points.AddY(temp);
                 cntTest = 0;
+                double readVolt = IOCom.ReadInput();
+                textBox1.Text = readVolt.ToString();
             }
 
             
@@ -92,6 +95,19 @@ namespace SCADA_Control_Application
 
         private void frmHMI_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            
+            
+        }
+
+        private void trackBar2_ValueChanged(object sender, EventArgs e)
+        {
+            textBox2.Text = trackBar2.Value.ToString();
+            IOCom.WriteOutput(trackBar2.Value);
 
         }
     }

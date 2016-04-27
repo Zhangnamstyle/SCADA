@@ -21,7 +21,6 @@ namespace SCADA_Control_Application
 
         public static double sim(double u)
         {
-            Console.WriteLine(DateTime.Now);
             double dTout_k;
             
 

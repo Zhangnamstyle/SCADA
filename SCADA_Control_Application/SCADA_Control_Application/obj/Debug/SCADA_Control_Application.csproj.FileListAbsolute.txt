@@ -27,3 +27,6 @@ C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Ap
 C:\Users\Kim\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\SCADA_Control_Application.exe.config
 C:\Users\Kim\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.exe
 C:\Users\Kim\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.pdb
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.DAQmx.dll
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.DAQmx.xml
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.csproj.SCADA_Control_Application.exe.config
