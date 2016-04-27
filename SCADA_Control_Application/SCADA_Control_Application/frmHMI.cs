@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NationalInstruments;
 
 namespace SCADA_Control_Application
 {
@@ -85,6 +86,11 @@ namespace SCADA_Control_Application
         {
             Controller.Sp = trackBar1.Value;
             label1.Text = trackBar1.Value.ToString();
+
+        }
+
+        private void frmHMI_Load(object sender, EventArgs e)
+        {
 
         }
     }
