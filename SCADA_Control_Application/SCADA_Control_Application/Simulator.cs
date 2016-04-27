@@ -21,7 +21,7 @@ namespace SCADA_Control_Application
 
         public static double sim(double u)
         {
-            
+            Console.WriteLine(DateTime.Now);
             double dTout_k;
             
 
@@ -34,6 +34,8 @@ namespace SCADA_Control_Application
             dTout_k = (1 / ThetaT) * (-Tout_k + envTemp + Kh * u);
             Tout_k_1 = Ts * dTout_k + Tout_k;
             Tout_k = Tout_k_1;
+
+            
 
             return Tout_k;
         }

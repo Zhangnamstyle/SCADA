@@ -9,13 +9,14 @@ using NationalInstruments.Net;
 
 namespace SCADA_Control_Application
 {
-    public class OPC
+    class OPC
     {
-        private string opcConURL;
+        private string opcURL;
+        
 
         public OPC(string opcURL)
         {
-            this.opcConURL = opcURL;
+            this.opcURL = opcURL;
         }
 
         public void writeToOPC(double opcValue)
@@ -23,11 +24,21 @@ namespace SCADA_Control_Application
             using (DataSocket ds = new DataSocket())
             {
                 if (ds.IsConnected) ds.Disconnect();
-
-                ds.Connect(opcConURL,AccessMode.Write);
-                ds.Data.Value = opcValue;
+                var temp = opcValue;
+                ds.Connect(opcURL,AccessMode.Write);
+                ds.Data.Value = temp;
                 ds.Update();
-
+            }
+        }
+        public void writeToOPC(int opcValue)
+        {
+            using (DataSocket ds = new DataSocket())
+            {
+                if (ds.IsConnected) ds.Disconnect();
+                var temp = opcValue;
+                ds.Connect(opcURL, AccessMode.Write);
+                ds.Data.Value = temp;
+                ds.Update();
             }
         }
     }

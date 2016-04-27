@@ -28,5 +28,17 @@ namespace DataLogging_Application
 
             return OPCvalue;
         }
+        public void writeToOPC(double opcValue)
+        {
+            
+            using (DataSocket ds = new DataSocket())
+            {
+                ds.Connect(opcConUrl, AccessMode.Write);
+                ds.Data.Value = opcValue;
+                ds.Update();
+            }
+
+
+        }
     }
 }

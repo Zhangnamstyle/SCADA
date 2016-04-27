@@ -24,6 +24,7 @@ namespace SCADA_Control_Application
             InitParam();
             string opcURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
             test = new OPC(opcURL);
+            test.writeToOPC(20);
             
         }
 

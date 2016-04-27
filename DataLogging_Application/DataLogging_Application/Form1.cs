@@ -66,5 +66,13 @@ namespace DataLogging_Application
 
             }
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string conUrl = "opc://localhost/Matrikon.OPC.Simulation/Tags.Temperature";
+
+            OPC myOPC = new OPC(conUrl);
+            myOPC.writeToOPC(Convert.ToDouble(textBox1.Text.ToString()));
+        }
     }
 }

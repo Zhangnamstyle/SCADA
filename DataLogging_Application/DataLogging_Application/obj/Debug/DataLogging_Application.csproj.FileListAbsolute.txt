@@ -13,3 +13,5 @@ C:\Users\alexa\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Applic
 C:\Users\alexa\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Application\obj\Debug\DataLogging_Application.exe.licenses
 C:\Users\alexa\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Application\obj\Debug\DataLogging_Application.exe
 C:\Users\alexa\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Application\obj\Debug\DataLogging_Application.pdb
+C:\Users\alexa\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Application\obj\Debug\DataLogging_Application.csprojResolveAssemblyReference.cache
+C:\Users\alexa\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Application\obj\Debug\DataLogging_Application.csproj.DataLogging_Application.exe.config

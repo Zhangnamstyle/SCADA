@@ -305,14 +305,17 @@
         <member name="M:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.UnlockedGetFixedDescriptorEntry(System.Type)">
             <summary>Retrieves the descriptor entry while under the <see cref="P:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.DescriptorsLock"/>.</summary>
         </member>
-        <member name="M:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.UnlockedGetRegisteredDescriptor(System.Type)">
+        <member name="M:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.UnlockedGetRegisteredDescriptor(System.Type,System.String)">
             <summary>Creates a descriptor registration entry for the specified data type while under the <see cref="P:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.DescriptorsLock"/>.</summary>
         </member>
-        <member name="M:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.GetGenericDescriptorProximityScore(System.Type,System.Type)">
-            <summary>Gets an integer indicating how close a descriptor is to the declared data type.</summary>
+        <member name="M:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.GetGenericDescriptorProximityScore(System.Type,System.Type,System.UInt32)">
+            <summary>Gets a score indicating how close a descriptor is to the declared data type.</summary>
         </member>
         <member name="M:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.GetCompatibleDescriptor(System.Type,System.Type,System.Collections.Generic.IEnumerable{System.Type})">
             <summary>Finds the first compatible descriptor from the list of candidate types.</summary>
+        </member>
+        <member name="M:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.GetCompatibleDescriptors(System.Type,System.Type,System.Collections.Generic.IEnumerable{System.Tuple{System.Type,System.UInt32}})">
+            <summary>Gets the resolved compatible descriptors from the list of candidate types.</summary>
         </member>
         <member name="M:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.ResolveGenericDescriptor(System.Type,System.String,System.Type,System.String)">
             <summary>Resolves the type arguments on an open generic descriptor candidate.</summary>
@@ -325,6 +328,12 @@
         </member>
         <member name="T:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.DescriptorEntry">
             <summary>Represents the descriptor of a registered data type.</summary>
+        </member>
+        <member name="M:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.DescriptorEntry.#ctor(System.UInt32)">
+            <summary>Initializes a new instance of the class.</summary>
+        </member>
+        <member name="P:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.DescriptorEntry.ExamineGeneration">
+            <summary>Gets the ExamineAssembly sequence number when the descriptor type was discovered.</summary>
         </member>
         <member name="P:NationalInstruments.DataInfrastructure.Descriptors.DataTypeDescriptors.DescriptorEntry.DescriptorType">
             <summary>Gets or sets the type of descriptor.</summary>
@@ -489,12 +498,14 @@
             </exception>
             <exception cref="T:System.ArgumentException">
                 <paramref name="candidates"/> is empty.
-                <para>-or-</para>
+                <para>- or -</para>
                 <para><paramref name="candidates"/> contains a <see langword="null"/> element.</para>
                 <para>- or -</para>
                 <para>A type in <paramref name="candidates"/> cannot be assigned to <typeparamref name="TResult"/>.</para>
                 <para>- or -</para>
                 <para>A type in <paramref name="candidates"/> does not have at least one public constructor taking the specified number of arguments.</para>
+                <para>- or -</para>
+                <para>The first candidate type in <paramref name="candidates"/> does not have any open generic type arguments.</para>
             </exception>
             <seealso cref="T:NationalInstruments.DataInfrastructure.Descriptors.IGenericMaker`1"/>
             <lastupdated>6/10/2012 10:44:32 AM</lastupdated>
@@ -558,6 +569,8 @@
                 <para><paramref name="candidates"/> contains a <see langword="null"/> element.</para>
                 <para>- or -</para>
                 <para><paramref name="candidates"/> contains an expression that is not a method call.</para>
+                <para>- or -</para>
+                <para>The first candidate method in <paramref name="candidates"/> does not have any open generic type arguments.</para>
             </exception>
             <seealso cref="T:NationalInstruments.DataInfrastructure.Descriptors.IGenericMaker`1"/>
             <lastupdated>6/10/2012 10:43:37 AM</lastupdated>
@@ -2225,6 +2238,18 @@
             <updatedby>National Instruments</updatedby>
             <approved>True</approved>
         </member>
+        <member name="M:NationalInstruments.DataInfrastructure.Descriptors.TypeArgumentAssignments.GetParameterAssignments">
+            <summary>
+            Gets the assigned type arguments from the <see cref="P:NationalInstruments.DataInfrastructure.Descriptors.TypeArgumentAssignments.ClosedBaseType"/> implemented by the <see cref="P:NationalInstruments.DataInfrastructure.Descriptors.TypeArgumentAssignments.DerivedType"/> for every open generic parameter in <see cref="P:NationalInstruments.DataInfrastructure.Descriptors.TypeArgumentAssignments.Arguments"/>.
+            </summary>
+            <returns>
+            The assigned type arguments from the <see cref="P:NationalInstruments.DataInfrastructure.Descriptors.TypeArgumentAssignments.ClosedBaseType"/> implemented by the <see cref="P:NationalInstruments.DataInfrastructure.Descriptors.TypeArgumentAssignments.DerivedType"/>
+            for every item in <see cref="P:NationalInstruments.DataInfrastructure.Descriptors.TypeArgumentAssignments.Arguments"/> where <see cref="P:System.Type.IsGenericParameter"/> returns <see langword="true"/>.
+            </returns>
+            <lastupdated>2015-12-28 2:11:33 PM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
         <member name="M:NationalInstruments.DataInfrastructure.Descriptors.TypeArgumentAssignments.ToString">
             <inheritdoc/>
             <lastupdated>6/10/2012 11:23:25 AM</lastupdated>
@@ -2710,6 +2735,9 @@
         </member>
         <member name="P:NationalInstruments.DataInfrastructure.Internal.BufferDebugView.Items">
             <exclude/>
+        </member>
+        <member name="M:NationalInstruments.DataInfrastructure.Internal.CommonDescriptorOperations.GetPrimitiveByteSize(System.Type)">
+            <summary>Returns the size of the specified data type, or zero if the data type is not a primitive type.</summary>
         </member>
         <member name="T:NationalInstruments.DataInfrastructure.Internal.Indices.ScopeImpl">
             <exclude/><summary>Represents all of the indices in a scope, with no gaps.</summary>
@@ -3550,9 +3578,6 @@
         </member>
         <member name="P:NationalInstruments.DataInfrastructure.Primitives.ByteDescriptor.Base10">
             <inheritdoc/>
-        </member>
-        <member name="M:NationalInstruments.DataInfrastructure.Primitives.CommonDescriptorOperations.GetPrimitiveByteSize(System.Type)">
-            <summary>Returns the size of the specified data type, or zero if the data type is not a primitive type.</summary>
         </member>
         <member name="T:NationalInstruments.DataInfrastructure.Primitives.ComplexDoubleDescriptor">
             <summary>The default <see cref="T:NationalInstruments.DataInfrastructure.Descriptors.IDataTypeDescriptor`1"/> for <see cref="T:NationalInstruments.ComplexDouble"/>.</summary>
@@ -7903,6 +7928,18 @@
             <updatedby>National Instruments</updatedby>
             <approved>True</approved>
         </member>
+        <member name="M:NationalInstruments.DataInfrastructure.Buffer`1.MakeNonvolatile">
+            <summary>
+            Ensures the buffer is backed by a non-volatile data store.
+            </summary>
+            <remarks>
+              <para>If <see cref="P:NationalInstruments.DataInfrastructure.Buffer`1.IsVolatile"/> returns <see langword="false"/>, calling <see cref="M:NationalInstruments.DataInfrastructure.Buffer`1.MakeNonvolatile"/> will not change the buffer.</para>
+              <para>If <see cref="P:NationalInstruments.DataInfrastructure.Buffer`1.IsVolatile"/> returns <see langword="true"/>, the data in the buffer will be copied to a non-volatile data store that can only be disposed by the buffer owner.</para>
+            </remarks>
+            <lastupdated>2015-12-23 10:42:33 AM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
         <member name="M:NationalInstruments.DataInfrastructure.Buffer`1.Slice(System.Int32,System.Int32)">
             <inheritdoc cref="M:NationalInstruments.DataInfrastructure.Buffer`1.Slice(System.Int32,System.Int32,System.Func{NationalInstruments.DataInfrastructure.Trait,NationalInstruments.DataInfrastructure.Trait})"/>
             <lastupdated>6/8/2012 10:50:44 AM</lastupdated>
@@ -8067,11 +8104,20 @@
             <approved>True</approved>
         </member>
         <member name="M:NationalInstruments.DataInfrastructure.Buffer`1.CopyTo(`0[],System.Int32)">
-            <inheritdoc/>
+            <inheritdoc cref="M:NationalInstruments.DataInfrastructure.Buffer`1.CopyTo(System.Int32,`0[],System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:NationalInstruments.DataInfrastructure.Buffer`1.CopyTo(System.Int32,`0[],System.Int32,System.Int32)">
+            <summary>
+            Copies a specified range of elements from the source buffer to an array.
+            </summary>
+            <param name="sourceIndex">The index in the buffer where copying begins.</param>
+            <param name="destination">The array to copy samples to.</param>
+            <param name="destinationIndex">The index in the destination where copying begins.</param>
+            <param name="length">The number of samples to copy.</param>
             <exception cref="T:System.ObjectDisposedException">The buffer or its underlying data have been disposed.</exception>
-            <lastupdated>6/8/2012 10:47:55 AM</lastupdated>
-            <updatedby>National Instruments</updatedby>
-            <approved>True</approved>
+            <lastupdated>2015-12-22 1:44:51 PM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
         </member>
         <member name="M:NationalInstruments.DataInfrastructure.Buffer`1.CopyTo(System.Int32,NationalInstruments.DataInfrastructure.WritableBuffer{`0},System.Int32,System.Int32)">
             <summary>
@@ -8158,6 +8204,18 @@
             <lastupdated>6/8/2012 10:46:49 AM</lastupdated>
             <updatedby>National Instruments</updatedby>
             <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.DataInfrastructure.Buffer`1.IsVolatile">
+            <summary>
+            Gets whether the buffer is backed by a volatile data store.
+            </summary>
+            <value>
+            <see langword="true"/> if the buffer is backed by a volatile data store, or
+            <see langword="false"/> if the buffer is backed by a stable data store.
+            </value>
+            <lastupdated>2015-12-22 1:35:51 PM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
         </member>
         <member name="P:NationalInstruments.DataInfrastructure.Buffer`1.Size">
             <inheritdoc/>
@@ -8430,9 +8488,6 @@
             <summary>
             Initializes a new instance of the <see cref="T:NationalInstruments.DataInfrastructure.DigitalSample"/> struct with the specified values and indexData.
             </summary>
-            <exception cref="T:System.ArgumentException">
-            Size of <paramref name="values"/> is greater than 32767.
-            </exception>
             <param name="values">
             The object containing the sample's data.
             </param>
@@ -8481,21 +8536,21 @@
         </member>
         <member name="M:NationalInstruments.DataInfrastructure.DigitalSample.Equals(System.Object)">
             <summary>
-            Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+            Determines whether the specified object is equal to the current object.
             </summary>
             <returns>
-            <see langword="true"/> if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, <see langword="false"/>.
+            <see langword='true'/> if the specified object  is equal to the current object; otherwise, <see langword='false'/>.
             </returns>
-            <param name="obj">
-            The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.
+            <param name='obj'>
+            The object to compare with the current object.
             </param>
         </member>
         <member name="M:NationalInstruments.DataInfrastructure.DigitalSample.GetHashCode">
             <summary>
-            Serves as a hash function for a particular type.
+            Serves as the default hash function.
             </summary>
             <returns>
-            A hash code for the current <see cref="T:System.Object"/>.
+            A hash code for the current object.
             </returns>
         </member>
         <member name="P:NationalInstruments.DataInfrastructure.DigitalSample.Count">
@@ -9124,6 +9179,9 @@
         </member>
         <member name="F:NationalInstruments.DataInfrastructure.NamedValueTrait.Metadata">
             <summary>Indicates additional metadata properties associated with the data source.</summary>
+        </member>
+        <member name="F:NationalInstruments.DataInfrastructure.NamedValueTrait.CopyVolatileData">
+            <summary>Indicates a preference when decomposing a volatile data source to prevent copying sample values into the result buffer.</summary>
         </member>
         <member name="M:NationalInstruments.DataInfrastructure.NamedValueTrait.#ctor(System.String,System.Object)">
             <summary>
@@ -11645,11 +11703,20 @@
             <approved>True</approved>
         </member>
         <member name="M:NationalInstruments.DataInfrastructure.WritableBuffer`1.CopyTo(`0[],System.Int32)">
-            <inheritdoc/>
+            <inheritdoc cref="M:NationalInstruments.DataInfrastructure.WritableBuffer`1.CopyTo(System.Int32,`0[],System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:NationalInstruments.DataInfrastructure.WritableBuffer`1.CopyTo(System.Int32,`0[],System.Int32,System.Int32)">
+            <summary>
+            Copies a specified range of elements from the source buffer to an array.
+            </summary>
+            <param name="sourceIndex">The index in the buffer where copying begins.</param>
+            <param name="destination">The array to copy samples to.</param>
+            <param name="destinationIndex">The index in the destination where copying begins.</param>
+            <param name="length">The number of samples to copy.</param>
             <exception cref="T:System.ObjectDisposedException">The buffer or its underlying data have been disposed.</exception>
-            <lastupdated>6/9/2012 10:11:18 PM</lastupdated>
-            <updatedby>National Instruments</updatedby>
-            <approved>True</approved>
+            <lastupdated>2015-12-22 1:44:51 PM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
         </member>
         <member name="M:NationalInstruments.DataInfrastructure.WritableBuffer`1.TryGetArrayIndexer">
             <summary>
@@ -12821,6 +12888,68 @@
             <updatedby>National Instruments</updatedby>
             <approved>True</approved>
         </member>
+        <member name="T:NationalInstruments.Restricted.Array2DSegment`1">
+            <exclude/>
+            <summary>
+            An <see cref="T:System.ArraySegment`1"/> implementation for 2D rectangular arrays.
+            </summary>
+            <lastupdated>2016-01-05 10:18:23 AM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.Restricted.Array2DSegment`1.#ctor(`0[0:,0:])">
+            <summary>
+            Initializes a new instance of the <see cref="T:NationalInstruments.Restricted.Array2DSegment`1"/> structure that delimits all the elements in the specified array.
+            </summary>
+            <param name="array">The array to wrap.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> is null.</exception>
+        </member>
+        <member name="M:NationalInstruments.Restricted.Array2DSegment`1.#ctor(`0[0:,0:],System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:NationalInstruments.Restricted.Array2DSegment`1"/> structure that delimits the specified range of the elements in the specified array.
+            </summary>
+            <param name="array">The array containing the range of elements to delimit.</param>
+            <param name="offset0">The zero-based index of the first element in the range of dimension 0.</param>
+            <param name="offset1">The zero-based index of the first element in the range of dimension 1.</param>
+            <param name="count0">The number of elements in the range of dimension 0.</param>
+            <param name="count1">The number of elements in the range of dimension 1.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array"/> is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="offset0"/> or <paramref name="count0"/> or <paramref name="offset1"/> or <paramref name="count1"/> is less than 0.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="offset0"/> and <paramref name="count0"/> or <paramref name="offset1"/> and <paramref name="count1"/> do not specify a valid range in <paramref name="array"/>.</exception>
+        </member>
+        <member name="P:NationalInstruments.Restricted.Array2DSegment`1.Array">
+            <summary>
+            Gets the original array containing the range of elements that the array segment delimits.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.Restricted.Array2DSegment`1.Offset0">
+            <summary>
+            Gets the position of the first element in the range of dimension 0 delimited by the array segment, relative to the start of the original array.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.Restricted.Array2DSegment`1.Count0">
+            <summary>
+            Gets the number of elements in the range of dimension 0 delimited by the array segment.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.Restricted.Array2DSegment`1.Offset1">
+            <summary>
+            Gets the position of the first element in the range of dimension 1 delimited by the array segment, relative to the start of the original array.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.Restricted.Array2DSegment`1.Count1">
+            <summary>
+            Gets the number of elements in the range of dimension 1 delimited by the array segment.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.Restricted.Array2DSegment`1.Item(System.Int32,System.Int32)">
+            <summary>
+            Gets or sets the value in the array at the specified indices.
+            </summary>
+            <param name="index0">The index for dimension 0.</param>
+            <param name="index1">The index for dimension 1.</param>
+            <returns>The value in <see cref="P:NationalInstruments.Restricted.Array2DSegment`1.Array"/> at <paramref name="index0"/> (offset by <see cref="P:NationalInstruments.Restricted.Array2DSegment`1.Offset0"/>) and <paramref name="index1"/> (offset by <see cref="P:NationalInstruments.Restricted.Array2DSegment`1.Offset1"/>).</returns>
+        </member>
         <member name="T:NationalInstruments.Restricted.BetaLicense">
             <exclude/>
             <summary>To encapsulate the behavior of a beta license</summary>
@@ -13959,6 +14088,7 @@
             <typeparam name="T">The type of the elements of <paramref name="collection"/>.</typeparam>
             <param name="collection">The enumerable collection to check for emptiness.</param>
             <returns><see langword="true"/> if <paramref name="collection"/> contains no elements; otherwise, <see langword="false"/>.</returns>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.IsEmpty(System.Collections.IEnumerable)">
             <exclude/>
@@ -13967,6 +14097,7 @@
             </summary>
             <param name="collection">The enumerable collection to check for emptiness.</param>
             <returns><see langword="true"/> if <paramref name="collection"/> contains no elements; otherwise, <see langword="false"/>.</returns>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.WhereNotNull``1(System.Collections.Generic.IEnumerable{``0})">
             <exclude/>
@@ -13976,23 +14107,18 @@
             <typeparam name="T">The type of the elements of <paramref name="collection"/>.</typeparam>
             <param name="collection">The enumerable collection to filter.</param>
             <returns>An enumerable collection containing no <see langword="null"/> elements.</returns>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
-            <exclude/>
-            <summary>
-            Performs a specified action on each element in the collection.
-            </summary>
-            <remarks>
-            The collection is enumerated immediately.
-            <para>
-            <see langword="null"/> may be passed for <paramref name="collection"/>, in which case <paramref name="action"/> will not be called.
-            </para>
-            </remarks>
-            <typeparam name="T">The type of the elements of <paramref name="collection"/>.</typeparam>
-            <param name="collection">The enumerable collection to perform the operation on.</param>
-            <param name="action">The operation to perform on each element of <paramref name="collection"/>.</param>
+            <exclude/><summary>Use SafeForEach.</summary>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.ForEach``1(System.Collections.IEnumerable,System.Action{``0})">
+            <exclude/><summary>Use SafeForEach.</summary>
+        </member>
+        <member name="M:NationalInstruments.Restricted.EnumerableExtensions.ForEach(System.Collections.IEnumerable,System.Action{System.Object})">
+            <exclude/><summary>Use SafeForEach.</summary>
+        </member>
+        <member name="M:NationalInstruments.Restricted.EnumerableExtensions.SafeForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
             <exclude/>
             <summary>
             Performs a specified action on each element in the collection.
@@ -14006,8 +14132,27 @@
             <typeparam name="T">The type of the elements of <paramref name="collection"/>.</typeparam>
             <param name="collection">The enumerable collection to perform the operation on.</param>
             <param name="action">The operation to perform on each element of <paramref name="collection"/>.</param>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.CanBeNullAttribute.#ctor"/></parameter>
+            <parameter name="action"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
-        <member name="M:NationalInstruments.Restricted.EnumerableExtensions.ForEach(System.Collections.IEnumerable,System.Action{System.Object})">
+        <member name="M:NationalInstruments.Restricted.EnumerableExtensions.SafeForEach``1(System.Collections.IEnumerable,System.Action{``0})">
+            <exclude/>
+            <summary>
+            Performs a specified action on each element in the collection.
+            </summary>
+            <remarks>
+            The collection is enumerated immediately.
+            <para>
+            <see langword="null"/> may be passed for <paramref name="collection"/>, in which case <paramref name="action"/> will not be called.
+            </para>
+            </remarks>
+            <typeparam name="T">The type of the elements of <paramref name="collection"/>.</typeparam>
+            <param name="collection">The enumerable collection to perform the operation on.</param>
+            <param name="action">The operation to perform on each element of <paramref name="collection"/>.</param>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.CanBeNullAttribute.#ctor"/></parameter>
+            <parameter name="action"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
+        </member>
+        <member name="M:NationalInstruments.Restricted.EnumerableExtensions.SafeForEach(System.Collections.IEnumerable,System.Action{System.Object})">
             <exclude/>
             <summary>
             Performs a specified action on each element in the collection.
@@ -14020,6 +14165,8 @@
             </remarks>
             <param name="collection">The enumerable collection to perform the operation on.</param>
             <param name="action">The operation to perform on each element of <paramref name="collection"/>.</param>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.CanBeNullAttribute.#ctor"/></parameter>
+            <parameter name="action"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.IndexOf``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean})">
             <exclude/>
@@ -14030,6 +14177,8 @@
             <param name="collection">The collection to search.</param>
             <param name="condition">The condition the matching item must satisfy.</param>
             <returns>The index of the first item matching <paramref name="condition"/> if found in the list; otherwise, -1.</returns>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
+            <parameter name="condition"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.IndexOf``1(System.Collections.Generic.IEnumerable{``0},``0)">
             <exclude/>
@@ -14040,6 +14189,7 @@
             <param name="collection">The collection to search.</param>
             <param name="value">The object to locate in the collection.</param>
             <returns>The index of <paramref name="value"/> if found in the list; otherwise, -1.</returns>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.IndexOf(System.Collections.IEnumerable,System.Func{System.Object,System.Boolean})">
             <exclude/>
@@ -14049,6 +14199,8 @@
             <param name="collection">The collection to search.</param>
             <param name="condition">The condition the matching item must satisfy.</param>
             <returns>The index of the first item matching <paramref name="condition"/> if found in the list; otherwise, -1.</returns>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
+            <parameter name="condition"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.IndexOf(System.Collections.IEnumerable,System.Object)">
             <exclude/>
@@ -14058,6 +14210,7 @@
             <param name="collection">The collection to search.</param>
             <param name="value">The object to locate in the collection.</param>
             <returns>The index of <paramref name="value"/> if found in the list; otherwise, -1.</returns>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.TryGetItem``1(System.Collections.Generic.IList{``0},System.Int32,``0@)">
             <exclude/>
@@ -14069,6 +14222,7 @@
             <param name="index">The prospective index of an element in the list.</param>
             <param name="value">On return, contains the element at <paramref name="index"/>, or the default value of <typeparamref name="T"/>.</param>
             <returns><see langword="true"/> if <paramref name="index"/> falls within the count of <paramref name="list"/>; otherwise, <see langword="false"/>.</returns>
+            <parameter name="list"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.UpdateItem``1(System.Collections.Generic.IList{``0},System.Int32,``0)">
             <exclude/>
@@ -14087,6 +14241,7 @@
             <param name="list">The list to update.</param>
             <param name="index">The item index to update.</param>
             <param name="newItem">The item to update the list with.</param>
+            <parameter name="list"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.GetNextIndexValue(System.Collections.Generic.IList{System.Int32},System.Int32@,System.Int32)">
             <exclude/>
@@ -14100,6 +14255,7 @@
             <param name="indices">The list of indices to read from.</param>
             <param name="index">The current index into <paramref name="indices"/>.</param>
             <param name="minimumIndex">The smallest acceptable index value.</param>
+            <parameter name="indices"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.DisposeAll``1(System.Collections.Generic.IEnumerable{``0})">
             <exclude/>
@@ -14113,6 +14269,7 @@
             </para>
             </remarks>
             <param name="collection">The collection of items to dispose.</param>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.CanBeNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.AddRange``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})">
             <exclude/>
@@ -14122,6 +14279,8 @@
             <typeparam name="T">The type of the elements of <paramref name="collection"/>.</typeparam>
             <param name="collection">The collection to append to.</param>
             <param name="items">The items to add to <paramref name="collection"/>.</param>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
+            <parameter name="items"><attribute ctor="M:NationalInstruments.Restricted.CanBeNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.RemoveRange(System.Collections.IList,System.Int32,System.Int32)">
             <exclude/>
@@ -14131,6 +14290,7 @@
             <param name="list">The collection to remove from.</param>
             <param name="index">The index of the first item to remove.</param>
             <param name="count">The number of items to remove.</param>
+            <parameter name="list"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.Generate``1(``0,System.Func{``0,``0},System.Func{``0,System.Boolean})">
             <exclude/>
@@ -14142,6 +14302,8 @@
             <param name="condition">The condition to determine when to stop enumerating items.</param>
             <param name="iterate">The operation to retrieve the next item in the collection.</param>
             <returns>The collection of generated items.</returns>
+            <parameter name="iterate"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
+            <parameter name="condition"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.GenerateUntilNull``1(``0,System.Func{``0,``0})">
             <exclude/>
@@ -14152,6 +14314,7 @@
             <param name="initial">The first item in the collection.</param>
             <param name="iterate">The operation to retrieve the next item in the collection.</param>
             <returns>The collection of generated items.</returns>
+            <parameter name="iterate"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.MakeEnumerable``1(``0)">
             <exclude/>
@@ -14179,6 +14342,7 @@
             <typeparam name="T">The type of the elements of <paramref name="collection"/>.</typeparam>
             <param name="collection">The enumerable collection to wrap.</param>
             <returns>A new enumerable collection containing all of the elements in <paramref name="collection"/>.</returns>
+            <parameter name="collection"><attribute ctor="M:NationalInstruments.Restricted.CanBeNullAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.EnumerableExtensions.ToReadOnlyCollection``1(System.Collections.Generic.IList{``0})">
             <exclude/>
@@ -14188,6 +14352,7 @@
             <typeparam name="T">The type of elements in the list.</typeparam>
             <param name="list">The list to wrap.</param>
             <returns>A new <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1"/> wrapping the specified list.</returns>
+            <parameter name="list"><attribute ctor="M:NationalInstruments.Restricted.NotNullAttribute.#ctor"/></parameter>
         </member>
         <member name="T:NationalInstruments.Restricted.EnumUtility">
              <exclude/>
@@ -14915,6 +15080,48 @@
             <exclude/>
             <lastupdated>4/11/2005 11:22:32 AM</lastupdated>
             <updatedby>Brock</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="T:NationalInstruments.Restricted.IDigitalWaveformService2">
+            <exclude/>
+            <lastupdated>2016-01-05 10:18:23 AM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.Restricted.IDigitalWaveformService2.GetBuffer">
+            <exclude/>
+            <lastupdated>4/25/2012 9:10:06 AM</lastupdated>
+            <updatedby>Lisa Hannan</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.Restricted.IDigitalWaveformService2.RequestBuffer(System.Int32,System.Int32)">
+            <exclude/>
+            <lastupdated>2016-01-05 10:18:23 AM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="P:NationalInstruments.Restricted.IDigitalWaveformService2.SampleCount">
+            <exclude/>
+            <lastupdated>2016-01-05 10:18:23 AM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="P:NationalInstruments.Restricted.IDigitalWaveformService2.SignalCount">
+            <exclude/>
+            <lastupdated>2016-01-05 10:18:23 AM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="P:NationalInstruments.Restricted.IDigitalWaveformService2.SampleCapacity">
+            <exclude/>
+            <lastupdated>2016-01-05 10:18:23 AM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="P:NationalInstruments.Restricted.IDigitalWaveformService2.SignalCapacity">
+            <exclude/>
+            <lastupdated>2016-01-05 10:18:23 AM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
             <approved>False</approved>
         </member>
         <member name="T:NationalInstruments.Restricted.ImplicitRefreshItem">
@@ -16154,6 +16361,7 @@
             </summary>
             <param name="value">The failing value.</param>
             <param name="info">Additional information to include in the debug message.</param>
+            <parameter name="value"><attribute ctor="M:NationalInstruments.Restricted.NoEnumerationAttribute.#ctor"/></parameter>
             <attribute ctor="M:NationalInstruments.Restricted.ContractAnnotationAttribute.#ctor(System.String)">
                    <argument>=> void</argument></attribute>
         </member>
@@ -16165,6 +16373,7 @@
             <typeparam name="T">The type of the variable.</typeparam>
             <param name="value">The value of the variable.</param>
             <param name="info">Additional information to include in the debug message.</param>
+            <parameter name="value"><attribute ctor="M:NationalInstruments.Restricted.NoEnumerationAttribute.#ctor"/></parameter>
             <attribute ctor="M:NationalInstruments.Restricted.ContractAnnotationAttribute.#ctor(System.String)">
                    <argument>value:null => void</argument></attribute>
         </member>
@@ -16176,6 +16385,7 @@
             <typeparam name="T">The type of the variable.</typeparam>
             <param name="value">The value of the variable.</param>
             <param name="info">Additional information to include in the debug message.</param>
+            <parameter name="value"><attribute ctor="M:NationalInstruments.Restricted.NoEnumerationAttribute.#ctor"/></parameter>
             <attribute ctor="M:NationalInstruments.Restricted.ContractAnnotationAttribute.#ctor(System.String)">
                    <argument>value:notnull => void</argument></attribute>
         </member>
@@ -16352,6 +16562,7 @@
             <typeparam name="T">The type of the variable.</typeparam>
             <param name="value">The value of the variable.</param>
             <param name="info">Additional information to include in the debug message.</param>
+            <parameter name="value"><attribute ctor="M:NationalInstruments.Restricted.NoEnumerationAttribute.#ctor"/></parameter>
         </member>
         <member name="M:NationalInstruments.Restricted.NIValidation.GuardCondition(System.Boolean,System.String,System.Object[])">
             <exclude/>
@@ -16431,6 +16642,18 @@
             </summary>
             <param name="guard">The guard for the variable.</param>
             <param name="count">The size of the collection.</param>
+            <returns>The given <paramref name="guard"/>.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">GuardParam condition fails.</exception>
+            <exception cref="T:System.InvalidOperationException">GuardValue condition fails.</exception>
+        </member>
+        <member name="M:NationalInstruments.Restricted.NIValidation.IndexInRange(NationalInstruments.Restricted.Guard{System.Int32},System.Int32,System.Boolean)">
+            <exclude/>
+            <summary>
+            Ensures the index value is valid for a collection with the specified count.
+            </summary>
+            <param name="guard">The guard for the variable.</param>
+            <param name="count">The size of the collection.</param>
+            <param name="allowEmptyIndex">Indicates whether the index value is allowed to match count when empty.</param>
             <returns>The given <paramref name="guard"/>.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">GuardParam condition fails.</exception>
             <exception cref="T:System.InvalidOperationException">GuardValue condition fails.</exception>
@@ -17014,6 +17237,249 @@
             <seealso keyword="2994d786-c5c7-4666-ab23-4c83129fe39c" keywordType="msdn">Generics in the .NET Framework</seealso>
             <lastupdated>10/15/2009 12:14:00 PM</lastupdated>
             <updatedby>Staci Heien</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="T:NationalInstruments.ITimedWaveform">
+            <summary>
+            Contains members common to all waveform types that expose timing information.
+            </summary>
+            <lastupdated>6/8/2012 10:27:37 AM</lastupdated>
+            <updatedby>National Instruments</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="T:NationalInstruments.IWaveform">
+            <summary>
+            Contains members common to all waveform types.
+            </summary>
+            <lastupdated>2015-12-31 1:20:51 PM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.IWaveform.MakeSamplesReadOnly">
+            <summary>
+            Makes the samples in the waveform read-only.
+            </summary>
+            <remarks>
+            Marking waveform samples as read-only allows consumers to optimize access to the samples collection.
+            When <see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is set to <see langword="true"/> by <see cref="M:NationalInstruments.IWaveform.MakeSamplesReadOnly"/>,
+            actions like writing a value to the samples collection, using a writable buffer, appending waveforms,
+            or performing a memory-optimized read will throw an <see cref="T:System.InvalidOperationException"/>.
+            </remarks>
+            <seealso cref="P:NationalInstruments.IWaveform.IsReadOnly"/>
+            <lastupdated>2016-01-13 10:07:52 AM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="P:NationalInstruments.IWaveform.DataType">
+            <summary>
+            Gets the data type of the waveform.
+            </summary>
+            <value>
+            The <see cref="T:System.Type"/> of the waveform.
+            </value>
+            <lastupdated>3/1/2006 5:04:25 PM</lastupdated>
+            <updatedby>Jennifer Smith</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.IWaveform.SampleCount">
+            <summary>
+            Gets the number of samples in the waveform.
+            </summary>
+            <value>
+            The number of samples in the waveform.
+            </value>
+            <lastupdated>7/22/2008 12:37:29 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.IWaveform.Capacity">
+            <summary>
+            Gets or sets the total capacity available for the waveform data.
+            </summary>
+            <value>
+            The total capacity available for the waveform data.
+            </value>
+            <remarks>
+            The capacity of a waveform is represented as the number of samples of data that can be stored in the waveform with the current amount of memory allocated for the data.
+            Changing the capacity of the waveform reallocates the memory used to store the waveform data. Changing the capacity is slower for a waveform with a larger number of samples.
+            </remarks>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            The specified value is less than <see cref="P:NationalInstruments.IWaveform.SampleCount"/>.
+            </exception>
+            <lastupdated>6/11/2012 11:46:14 AM</lastupdated>
+            <updatedby>National Instruments</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.IWaveform.ChannelName">
+            <summary>
+            Gets or sets the name of the device channel from which the waveform was acquired.
+            </summary>
+            <value>
+            A <see cref="T:System.String"/> representing the name of the device channel from which the waveform was acquired.
+            The default value is an empty string.
+            </value>
+            <remarks>
+            <see cref="P:NationalInstruments.IWaveform.ChannelName"/> reads and writes to <see cref="P:NationalInstruments.IWaveform.ExtendedProperties"/> using the reserved key <format type="monospace">NI_ChannelName</format>.
+            </remarks>
+            <lastupdated>3/16/2006 1:36:27 PM</lastupdated>
+            <updatedby>Jennifer Smith</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.IWaveform.UnitDescription">
+            <summary>
+            Gets or sets the unit of measurement, such as volts, of the waveform.
+            </summary>
+            <value>
+            A <see cref="T:System.String"/> representing the unit of measurement of the waveform.
+            The default value is an empty string.
+            </value>
+            <remarks>
+            <see cref="P:NationalInstruments.IWaveform.UnitDescription"/> reads and writes to <see cref="P:NationalInstruments.IWaveform.ExtendedProperties"/> using the reserved key <format type="monospace">NI_UnitDescription</format>.
+            </remarks>
+            <lastupdated>3/16/2006 11:48:38 AM</lastupdated>
+            <updatedby>Jennifer Smith</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.IWaveform.ExtendedProperties">
+            <summary>
+            Gets the extended properties for the waveform.
+            </summary>
+            <value>
+            An <see cref="T:NationalInstruments.ExtendedPropertyDictionary"/> that contains the extended properties of the waveform.
+            </value>
+            <remarks>
+            <see cref="P:NationalInstruments.IWaveform.ExtendedProperties"/> stores key value pair information specific to the waveform.
+            For example, drivers, such as the NI-DAQmx driver, populate <see cref="P:NationalInstruments.IWaveform.ExtendedProperties"/>
+            with information specific to the data acquisition type. For more information, refer to your specific driver documentation.
+            </remarks>
+            <lastupdated>3/1/2006 5:04:31 PM</lastupdated>
+            <updatedby>Jennifer Smith</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.IWaveform.IsReadOnly">
+            <summary>
+            Indicates whether the samples in the waveform are read-only or can be modified.
+            </summary>
+            <value>
+            <see langword="true"/> if the waveform samples are read-only and cannot be modified, or
+            <see langword="false"/> if the samples can be modified.
+            The default value is <see langword="false"/>.
+            </value>
+            <remarks>
+            Marking waveform samples as read-only allows consumers to optimize access to the samples collection.
+            When <see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is set to <see langword="true"/> by <see cref="M:NationalInstruments.IWaveform.MakeSamplesReadOnly"/>,
+            actions like writing a value to the samples collection, using a writable buffer, appending waveforms,
+            or performing a memory-optimized read will throw an <see cref="T:System.InvalidOperationException"/>.
+            </remarks>
+            <seealso cref="M:NationalInstruments.IWaveform.MakeSamplesReadOnly"/>
+            <lastupdated>2016-01-13 10:07:52 AM</lastupdated>
+            <updatedby>Paul Hansen</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.ITimedWaveform.GetPrecisionTimeStamps">
+            <summary>
+            Retrieves the time stamps from <see cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/>.
+            </summary>
+            <returns>
+            A <see cref="T:NationalInstruments.PrecisionDateTime"/> array of time stamps.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+                <para>The <see cref="P:NationalInstruments.PrecisionWaveformTiming.SampleIntervalMode"/> property of <see cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/> is <see cref="F:NationalInstruments.WaveformSampleIntervalMode.None"/>.</para>
+                <para>-or-</para>
+                <para>
+                    The <see cref="P:NationalInstruments.PrecisionWaveformTiming.SampleIntervalMode"/> property of <see cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/> is <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Regular"/>, and
+                    the <see cref="P:NationalInstruments.PrecisionWaveformTiming.HasTimeStamp"/> property is <see langword="false"/>.
+                </para>
+            </exception>
+            <seealso cref="T:NationalInstruments.PrecisionWaveformTiming"/>
+            <seealso cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/>
+            <lastupdated>11/20/2007 5:11:13 PM</lastupdated>
+            <updatedby>Whitney Bates</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="M:NationalInstruments.ITimedWaveform.GetPrecisionTimeStamps(System.Int32,System.Int32)">
+            <summary>
+            Retrieves the time stamps from <see cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/> using
+            the specified sample index and count.
+            </summary>
+            <param name="sampleIndex">
+            The beginning index of the waveform from which to get the time stamps.
+            </param>
+            <param name="count">
+            The number of time stamps to return.
+            </param>
+            <returns>
+            A <see cref="T:NationalInstruments.PrecisionDateTime"/> array of time stamps.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+                <para>The <see cref="P:NationalInstruments.PrecisionWaveformTiming.SampleIntervalMode"/> property of <see cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/> is <see cref="F:NationalInstruments.WaveformSampleIntervalMode.None"/>.</para>
+                <para>-or-</para>
+                <para>
+                    The <see cref="P:NationalInstruments.PrecisionWaveformTiming.SampleIntervalMode"/> property of <see cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/> is <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Regular"/>, and
+                    the <see cref="P:NationalInstruments.PrecisionWaveformTiming.HasTimeStamp"/> property is <see langword="false"/>.
+                </para>
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para><paramref name="count"/> is less than zero.</para>
+                <para>-or-</para>
+                <para><paramref name="sampleIndex"/> is less than zero.</para>
+                <para>-or-</para>
+                <para><paramref name="sampleIndex"/> plus <paramref name="count"/> is greater than the sample count.</para>
+            </exception>
+            <seealso cref="T:NationalInstruments.PrecisionWaveformTiming"/>
+            <seealso cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/>
+            <lastupdated>11/20/2007 5:12:10 PM</lastupdated>
+            <updatedby>Whitney Bates</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="M:NationalInstruments.ITimedWaveform.GetPrecisionTimeStampBuffer">
+            <summary>
+            Gets a buffer representing the precision time stamps of the waveform.
+            </summary>
+            <returns>
+            A <see cref="T:NationalInstruments.DataInfrastructure.Buffer`1"/> representing the precision time stamps of the waveform.
+            </returns>
+            <remarks>
+                <para>The number of time stamps in the <see cref="T:NationalInstruments.DataInfrastructure.Buffer`1"/> is equal to <see cref="P:NationalInstruments.IWaveform.SampleCount"/>.</para>
+                <para>
+                    The <see cref="T:NationalInstruments.DataInfrastructure.Buffer`1"/> returned by <see cref="M:NationalInstruments.ITimedWaveform.GetPrecisionTimeStampBuffer"/> is a read-only view of the waveform precision time stamps.
+                    Calling <see cref="M:NationalInstruments.DataInfrastructure.Buffer`1.MakeWritable"/> on the <see cref="T:NationalInstruments.DataInfrastructure.Buffer`1"/> makes a copy of the precision time stamp data.
+                    To change the precision timing of the waveform, set <see cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/> to a new value.
+                </para>
+            </remarks>
+            <exception cref="T:System.InvalidOperationException">
+                <para>The <see cref="P:NationalInstruments.PrecisionWaveformTiming.SampleIntervalMode"/> property of <see cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/> is <see cref="F:NationalInstruments.WaveformSampleIntervalMode.None"/>.</para>
+                <para>-or-</para>
+                <para>
+                    The <see cref="P:NationalInstruments.PrecisionWaveformTiming.SampleIntervalMode"/> property of <see cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/> is <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Regular"/>, and
+                    the <see cref="P:NationalInstruments.PrecisionWaveformTiming.HasTimeStamp"/> property is <see langword="false"/>.
+                </para>
+            </exception>
+            <lastupdated>6/7/2012 1:29:14 PM</lastupdated>
+            <updatedby>National Instruments</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.ITimedWaveform.PrecisionTiming">
+            <summary>
+            Gets or sets the timing information of the waveform.
+            </summary>
+            <value>
+            The timing information of the waveform. The default value is <see cref="F:NationalInstruments.PrecisionWaveformTiming.Empty"/>.
+            </value>
+            <exception cref="T:System.ArgumentNullException">
+                The specified value is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+                <para>
+                    <see cref="P:NationalInstruments.PrecisionWaveformTiming.SampleIntervalMode"/> is <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Irregular"/>
+                    and the number of time stamps in <see cref="P:NationalInstruments.ITimedWaveform.PrecisionTiming"/> is not equal to <see cref="P:NationalInstruments.IWaveform.SampleCount"/>.
+                </para>
+                <para>-or-</para>
+                <para>The time stamp values are greater than <see cref="F:NationalInstruments.PrecisionDateTime.MaxValue"/>.</para>
+            </exception>
+            <seealso cref="T:NationalInstruments.PrecisionWaveformTiming"/>
+            <lastupdated>11/20/2007 3:09:51 PM</lastupdated>
+            <updatedby>Whitney Bates</updatedby>
             <approved>True</approved>
         </member>
         <member name="M:NationalInstruments.AnalogWaveform`1.#ctor(System.Int32)">
@@ -17679,6 +18145,7 @@
              is equal to <see cref="P:NationalInstruments.AnalogWaveform`1.SampleCount" crefType="Unqualified"/>.
              </para>
              </remarks>
+             <exception cref="T:System.InvalidOperationException"><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</exception>
              <example>
              The following code demonstrates how to use <see cref="T:NationalInstruments.DataInfrastructure.WritableBuffer`1" crefType="Unqualified"/>.
              <code lang="VB.NET">
@@ -17845,6 +18312,8 @@
             <see cref="P:NationalInstruments.AnalogWaveform`1.PrecisionTiming" crefType="Unqualified"/> is
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Irregular" crefType="Unqualified"/>.
             </para>
+                <para>- or -</para>
+                <para><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</para>
             </exception>
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="data"/> is <see langword="null"/>.
@@ -17877,6 +18346,8 @@
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Regular" crefType="Unqualified"/> or
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.None" crefType="Unqualified"/>.
             </para>
+                <para>- or -</para>
+                <para><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</para>
             </exception>
             <exception cref="T:System.ArgumentNullException">
                 <para><paramref name="data"/> is <see langword="null"/>.</para>
@@ -17917,6 +18388,8 @@
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Regular" crefType="Unqualified"/> or
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.None" crefType="Unqualified"/>.
             </para>
+                <para>- or -</para>
+                <para><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</para>
             </exception>
             <exception cref="T:System.ArgumentNullException">
                 <para><paramref name="data"/> is <see langword="null"/>.</para>
@@ -17992,6 +18465,8 @@
             <paramref name="waveform"/> is
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Irregular" crefType="Unqualified"/>.
             </para>
+                <para>- or -</para>
+                <para><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</para>
             </exception>
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="waveform"/> is <see langword="null"/>.
@@ -18085,6 +18560,8 @@
             an element in <paramref name="waveforms"/> is
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Irregular" crefType="Unqualified"/>.
             </para>
+                <para>- or -</para>
+                <para><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</para>
             </exception>
             <exception cref="T:System.ArgumentNullException">
                 <para><paramref name="waveforms"/> is <see langword="null"/>.</para>
@@ -18149,6 +18626,9 @@
             <lastupdated>3/1/2006 5:46:13 PM</lastupdated>
             <updatedby>Jennifer Smith</updatedby>
             <approved>True</approved>
+        </member>
+        <member name="M:NationalInstruments.AnalogWaveform`1.NationalInstruments#IWaveform#MakeSamplesReadOnly">
+            <inheritdoc/>
         </member>
         <member name="M:NationalInstruments.AnalogWaveform`1.System#IServiceProvider#GetService(System.Type)">
             <exclude/>
@@ -18394,6 +18874,9 @@
             <lastupdated>6/11/2012 11:46:14 AM</lastupdated>
             <updatedby>National Instruments</updatedby>
             <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.AnalogWaveform`1.NationalInstruments#IWaveform#IsReadOnly">
+            <inheritdoc/>
         </member>
         <member name="T:NationalInstruments.AnalogWaveformCollection`1">
             <summary>
@@ -18951,6 +19434,7 @@
             <approved>False</approved>
         </member>
         <member name="M:NationalInstruments.AnalogWaveformSampleCollection`1.System#Collections#Generic#ICollection{NationalInstruments#AnalogWaveformSample{TData}}#Remove(NationalInstruments.AnalogWaveformSample{`0})">
+            <exclude/>
             <summary>
             This method is not supported.
             </summary>
@@ -18958,7 +19442,7 @@
             <returns>The return value is not documented because the method is not supported.</returns>
             <remarks>
                 <see cref="T:NationalInstruments.AnalogWaveformSampleCollection`1" crefType="Unqualified"/>
-            is read only and does not support removing items from the collection.
+            does not support removing items from the collection.
             </remarks>
             <exception cref="T:System.NotSupportedException">
             This exception is always thrown.
@@ -18968,12 +19452,13 @@
             <approved>False</approved>
         </member>
         <member name="M:NationalInstruments.AnalogWaveformSampleCollection`1.System#Collections#Generic#ICollection{NationalInstruments#AnalogWaveformSample{TData}}#Clear">
+            <exclude/>
             <summary>
             This method is not supported.
             </summary>
             <remarks>
                 <see cref="T:NationalInstruments.AnalogWaveformSampleCollection`1" crefType="Unqualified"/>
-            is read only and does not support clearing the collection.
+            does not support clearing the collection.
             </remarks>
             <exception cref="T:System.NotSupportedException">
             This exception is always thrown.
@@ -18983,13 +19468,14 @@
             <approved>False</approved>
         </member>
         <member name="M:NationalInstruments.AnalogWaveformSampleCollection`1.System#Collections#Generic#ICollection{NationalInstruments#AnalogWaveformSample{TData}}#Add(NationalInstruments.AnalogWaveformSample{`0})">
+            <exclude/>
             <summary>
             This method is not supported.
             </summary>
             <param name="item">This parameter is not documented because the method is not supported.</param>
             <remarks>
                 <see cref="T:NationalInstruments.AnalogWaveformSampleCollection`1" crefType="Unqualified"/>
-            is read only and does not support adding new items to the collection.
+            does not support adding new items to the collection.
             </remarks>
             <exception cref="T:System.NotSupportedException">
             This exception is always thrown.
@@ -19024,7 +19510,7 @@
             Returns an enumerator that iterates through the collection.
             </summary>
             <returns>
-            An <see cref="T:System.Collections.Generic.IEnumerator`1"/>  that can be used to iterate through the collection.
+            An <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
             </returns>
             <lastupdated>9/28/2009 2:58:23 PM</lastupdated>
             <updatedby>Measurement Studio</updatedby>
@@ -19074,7 +19560,7 @@
         </member>
         <member name="P:NationalInstruments.AnalogWaveformSampleCollection`1.System#Collections#Generic#ICollection{NationalInstruments#AnalogWaveformSample{TData}}#IsReadOnly">
             <summary>
-            Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/>  is read-only.
+            Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
             </summary>
             <value>
                 <see langword="true"/> if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, <see langword="false"/>.
@@ -22058,6 +22544,7 @@
              is equal to <see cref="P:NationalInstruments.ComplexWaveform`1.SampleCount" crefType="Unqualified"/>.
              </para>
              </remarks>
+             <exception cref="T:System.InvalidOperationException"><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</exception>
              <example>
              <code lang="VB.NET">
              Dim r As New Random()
@@ -22098,7 +22585,7 @@
              </para>
                  <para>
              The <see cref="T:NationalInstruments.DataInfrastructure.Buffer`1" crefType="Unqualified"/> returned
-             by <see cref="M:NationalInstruments.ComplexWaveform`1.GetBuffer(System.Boolean)" crefType="Unqualified"/>
+             by <see cref="M:NationalInstruments.ComplexWaveform`1.GetPrecisionTimeStampBuffer" crefType="Unqualified"/>
              is a read-only view of the waveform precision time stamps.  Calling
              <see cref="M:NationalInstruments.DataInfrastructure.Buffer`1.MakeWritable" crefType="Unqualified"/>
              on the <see cref="T:NationalInstruments.DataInfrastructure.Buffer`1" crefType="Unqualified"/>
@@ -22159,6 +22646,8 @@
             <see cref="P:NationalInstruments.ComplexWaveform`1.PrecisionTiming" crefType="Unqualified"/> is
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Irregular" crefType="Unqualified"/>.
             </para>
+                <para>- or -</para>
+                <para><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</para>
             </exception>
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="data"/> is <see langword="null"/>.
@@ -22191,6 +22680,8 @@
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Regular" crefType="Unqualified"/> or
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.None" crefType="Unqualified"/>.
             </para>
+                <para>- or -</para>
+                <para><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</para>
             </exception>
             <exception cref="T:System.ArgumentNullException">
                 <para><paramref name="data"/> is <see langword="null"/>.</para>
@@ -22244,6 +22735,8 @@
             <paramref name="waveform"/> is
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Irregular" crefType="Unqualified"/>.
             </para>
+                <para>- or -</para>
+                <para><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</para>
             </exception>
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="waveform"/> is <see langword="null"/>.
@@ -22310,6 +22803,8 @@
             an element in <paramref name="waveforms"/> is
             <see cref="F:NationalInstruments.WaveformSampleIntervalMode.Irregular" crefType="Unqualified"/>.
             </para>
+                <para>- or -</para>
+                <para><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</para>
             </exception>
             <exception cref="T:System.ArgumentNullException">
                 <para><paramref name="waveforms"/> is <see langword="null"/>.</para>
@@ -22369,6 +22864,9 @@
             <lastupdated>11/20/2007 5:26:19 PM</lastupdated>
             <updatedby>Whitney Bates</updatedby>
             <approved>True</approved>
+        </member>
+        <member name="M:NationalInstruments.ComplexWaveform`1.NationalInstruments#IWaveform#MakeSamplesReadOnly">
+            <inheritdoc/>
         </member>
         <member name="M:NationalInstruments.ComplexWaveform`1.System#IServiceProvider#GetService(System.Type)">
             <exclude/>
@@ -22721,6 +23219,9 @@
             <lastupdated>6/11/2012 11:46:20 AM</lastupdated>
             <updatedby>National Instruments</updatedby>
             <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.ComplexWaveform`1.NationalInstruments#IWaveform#IsReadOnly">
+            <inheritdoc/>
         </member>
         <member name="T:NationalInstruments.ComplexWaveformCollection`1">
             <summary>
@@ -23226,7 +23727,7 @@
             <returns>The return value is not documented because the method is not supported.</returns>
             <remarks>
                 <see cref="T:NationalInstruments.ComplexWaveformSampleCollection`1" crefType="Unqualified"/>
-            is read only and does not support removing items from the collection.
+            does not support removing items from the collection.
             </remarks>
             <exception cref="T:System.NotSupportedException">
             This exception is always thrown.
@@ -23241,7 +23742,7 @@
             </summary>
             <remarks>
                 <see cref="T:NationalInstruments.ComplexWaveformSampleCollection`1" crefType="Unqualified"/>
-            is read only and does not support clearing the collection.
+            does not support clearing the collection.
             </remarks>
             <exception cref="T:System.NotSupportedException">
             This exception is always thrown.
@@ -23257,7 +23758,7 @@
             <param name="item">This parameter is not documented because the method is not supported.</param>
             <remarks>
                 <see cref="T:NationalInstruments.ComplexWaveformSampleCollection`1" crefType="Unqualified"/>
-            is read only and does not support adding new items to the collection.
+            does not support adding new items to the collection.
             </remarks>
             <exception cref="T:System.NotSupportedException">
             This exception is always thrown.
@@ -23292,7 +23793,7 @@
             Returns an enumerator that iterates through the collection.
             </summary>
             <returns>
-            An <see cref="T:System.Collections.Generic.IEnumerator`1"/>  that can be used to iterate through the collection.
+            An <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
             </returns>
             <lastupdated>9/28/2009 4:18:18 PM</lastupdated>
             <updatedby>Measurement Studio</updatedby>
@@ -23342,7 +23843,7 @@
         </member>
         <member name="P:NationalInstruments.ComplexWaveformSampleCollection`1.System#Collections#Generic#ICollection{NationalInstruments#ComplexWaveformSample{TData}}#IsReadOnly">
             <summary>
-            Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/>  is read-only.
+            Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
             </summary>
             <value>
                 <see langword="true"/> if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, <see langword="false"/>.
@@ -24600,6 +25101,20 @@
             <updatedby>National Instruments</updatedby>
             <approved>True</approved>
         </member>
+        <member name="M:NationalInstruments.DigitalStateCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalState}#Contains(NationalInstruments.DigitalState)">
+            <summary>
+            Determines whether the <see cref="T:System.Collections.Generic.ICollection`1"/> contains a specific value.
+            </summary>
+            <param name="item">
+            The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </param>
+            <returns>
+                <see langword="true"/> if item is found in the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, <see langword="false"/>.
+            </returns>
+            <lastupdated>9/28/2009 2:41:23 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>False</approved>
+        </member>
         <member name="M:NationalInstruments.DigitalStateCollection.CopyTo(NationalInstruments.DigitalState[],System.Int32)">
             <summary>
             Copies the collection to an array or a portion of an array.
@@ -24648,6 +25163,68 @@
             <updatedby>Whitney Bates</updatedby>
             <approved>True</approved>
         </member>
+        <member name="M:NationalInstruments.DigitalStateCollection.System#Collections#IEnumerable#GetEnumerator">
+            <exclude/>
+            <lastupdated>9/19/2009 4:21:25 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalStateCollection.System#Collections#Generic#IEnumerable{NationalInstruments#DigitalState}#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+            <lastupdated>9/28/2009 2:58:23 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalStateCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalState}#Add(NationalInstruments.DigitalState)">
+            <exclude/>
+            <summary>
+            This method is not supported.
+            </summary>
+            <param name="item">This parameter is not documented because the method is not supported.</param>
+            <remarks><see cref="T:NationalInstruments.DigitalStateCollection"/> does not support adding new items to the collection.</remarks>
+            <exception cref="T:System.NotSupportedException">
+            This exception is always thrown.
+            </exception>
+            <lastupdated>9/18/2009 7:50:37 AM</lastupdated>
+            <updatedby>Lisa Hannan</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalStateCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalState}#Clear">
+            <exclude/>
+            <summary>
+            This method is not supported.
+            </summary>
+            <remarks><see cref="T:NationalInstruments.DigitalStateCollection"/> does not support clearing the collection.</remarks>
+            <exception cref="T:System.NotSupportedException">
+            This exception is always thrown.
+            </exception>
+            <lastupdated>9/15/2009 1:08:28 PM</lastupdated>
+            <updatedby>Lisa Hannan</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalStateCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalState}#Remove(NationalInstruments.DigitalState)">
+            <exclude/>
+            <summary>
+            This method is not supported.
+            </summary>
+            <param name="item">This parameter is not documented because the method is not supported.</param>
+            <returns>The return value is not documented because the method is not supported.</returns>
+            <remarks>
+                <see cref="T:NationalInstruments.DigitalStateCollection"/>
+            does not support removing items from the collection.
+            </remarks>
+            <exception cref="T:System.NotSupportedException">
+            This exception is always thrown.
+            </exception>
+            <lastupdated>9/18/2009 7:51:46 AM</lastupdated>
+            <updatedby>Lisa Hannan</updatedby>
+            <approved>False</approved>
+        </member>
         <member name="P:NationalInstruments.DigitalStateCollection.Item(System.Int32)">
             <summary>
             Gets or sets the <see cref="T:NationalInstruments.DigitalState"/> at the specified index.
@@ -24678,6 +25255,17 @@
             <lastupdated>9/6/2005 1:53:31 PM</lastupdated>
             <updatedby>Whitney Bates</updatedby>
             <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.DigitalStateCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalState}#IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
+            </summary>
+            <value>
+                <see langword="true"/> if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, <see langword="false"/>.
+            </value>
+            <lastupdated>9/28/2009 2:56:42 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>False</approved>
         </member>
         <member name="P:NationalInstruments.DigitalStateCollection.System#Collections#ICollection#IsSynchronized">
             <exclude/>
@@ -26079,6 +26667,7 @@
              is equal to the <see cref="P:NationalInstruments.DigitalWaveformSampleCollection.Count"/> of <see cref="P:NationalInstruments.DigitalWaveform.Samples"/>.
              </para>
              </remarks>
+             <exception cref="T:System.InvalidOperationException"><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</exception>
              <example>
              The following code demonstrates how to use <see cref="T:NationalInstruments.DataInfrastructure.WritableBuffer`1"/>.
              <code lang="VB.NET">
@@ -26388,6 +26977,9 @@
             <updatedby>Staci McCormick</updatedby>
             <approved>True</approved>
         </member>
+        <member name="M:NationalInstruments.DigitalWaveform.NationalInstruments#IWaveform#MakeSamplesReadOnly">
+            <inheritdoc/>
+        </member>
         <member name="M:NationalInstruments.DigitalWaveform.System#IServiceProvider#GetService(System.Type)">
             <exclude/>
             <lastupdated>1/23/2009 4:13:06 PM</lastupdated>
@@ -26523,6 +27115,21 @@
             <lastupdated>3/16/2006 1:37:28 PM</lastupdated>
             <updatedby>Jennifer Smith</updatedby>
             <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.DigitalWaveform.NationalInstruments#IWaveform#DataType">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.DigitalWaveform.NationalInstruments#IWaveform#SampleCount">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.DigitalWaveform.NationalInstruments#IWaveform#Capacity">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.DigitalWaveform.NationalInstruments#IWaveform#UnitDescription">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.DigitalWaveform.NationalInstruments#IWaveform#IsReadOnly">
+            <inheritdoc/>
         </member>
         <member name="T:NationalInstruments.DigitalWaveformFailure">
             <summary>
@@ -26836,6 +27443,20 @@
             <updatedby>Whitney Bates</updatedby>
             <approved>True</approved>
         </member>
+        <member name="M:NationalInstruments.DigitalWaveformSampleCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalWaveformSample}#Contains(NationalInstruments.DigitalWaveformSample)">
+            <summary>
+            Determines whether the <see cref="T:System.Collections.Generic.ICollection`1"/> contains a specific value.
+            </summary>
+            <param name="item">
+            The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </param>
+            <returns>
+                <see langword="true"/> if item is found in the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, <see langword="false"/>.
+            </returns>
+            <lastupdated>9/28/2009 2:41:23 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>False</approved>
+        </member>
         <member name="M:NationalInstruments.DigitalWaveformSampleCollection.CopyTo(NationalInstruments.DigitalWaveformSample[],System.Int32)">
             <summary>
             Copies the collection to an array or a portion of an array.
@@ -26871,7 +27492,7 @@
         </member>
         <member name="M:NationalInstruments.DigitalWaveformSampleCollection.GetEnumerator">
             <summary>
-            Returns an enumerator that you can use to iterate through the collection.
+            Returns an enumerator that you use to iterate through the collection.
             </summary>
             <returns>
             The enumerator for the collection.
@@ -26880,9 +27501,71 @@
             For a detailed explanation of this method, refer to <see cref="M:System.Collections.IEnumerable.GetEnumerator"/> in the Microsoft
             .NET Framework documentation.
             </remarks>
-            <lastupdated>9/15/2005 6:19:22 PM</lastupdated>
+            <lastupdated>9/16/2005 10:27:49 AM</lastupdated>
             <updatedby>Whitney Bates</updatedby>
             <approved>True</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalWaveformSampleCollection.System#Collections#IEnumerable#GetEnumerator">
+            <exclude/>
+            <lastupdated>9/19/2009 4:21:25 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalWaveformSampleCollection.System#Collections#Generic#IEnumerable{NationalInstruments#DigitalWaveformSample}#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+            <lastupdated>9/28/2009 2:58:23 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalWaveformSampleCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalWaveformSample}#Add(NationalInstruments.DigitalWaveformSample)">
+            <exclude/>
+            <summary>
+            This method is not supported.
+            </summary>
+            <param name="item">This parameter is not documented because the method is not supported.</param>
+            <remarks><see cref="T:NationalInstruments.DigitalWaveformSampleCollection"/> does not support adding new items to the collection.</remarks>
+            <exception cref="T:System.NotSupportedException">
+            This exception is always thrown.
+            </exception>
+            <lastupdated>9/18/2009 7:50:37 AM</lastupdated>
+            <updatedby>Lisa Hannan</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalWaveformSampleCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalWaveformSample}#Clear">
+            <exclude/>
+            <summary>
+            This method is not supported.
+            </summary>
+            <remarks><see cref="T:NationalInstruments.DigitalWaveformSampleCollection"/> does not support clearing the collection.</remarks>
+            <exception cref="T:System.NotSupportedException">
+            This exception is always thrown.
+            </exception>
+            <lastupdated>9/15/2009 1:08:28 PM</lastupdated>
+            <updatedby>Lisa Hannan</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalWaveformSampleCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalWaveformSample}#Remove(NationalInstruments.DigitalWaveformSample)">
+            <exclude/>
+            <summary>
+            This method is not supported.
+            </summary>
+            <param name="item">This parameter is not documented because the method is not supported.</param>
+            <returns>The return value is not documented because the method is not supported.</returns>
+            <remarks>
+                <see cref="T:NationalInstruments.DigitalWaveformSampleCollection"/>
+            does not support removing items from the collection.
+            </remarks>
+            <exception cref="T:System.NotSupportedException">
+            This exception is always thrown.
+            </exception>
+            <lastupdated>9/18/2009 7:51:46 AM</lastupdated>
+            <updatedby>Lisa Hannan</updatedby>
+            <approved>False</approved>
         </member>
         <member name="P:NationalInstruments.DigitalWaveformSampleCollection.Item(System.Int32)">
             <summary>
@@ -26911,6 +27594,17 @@
             <lastupdated>9/15/2005 5:53:07 PM</lastupdated>
             <updatedby>Whitney Bates</updatedby>
             <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.DigitalWaveformSampleCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalWaveformSample}#IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
+            </summary>
+            <value>
+                <see langword="true"/> if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, <see langword="false"/>.
+            </value>
+            <lastupdated>9/28/2009 2:56:42 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>False</approved>
         </member>
         <member name="P:NationalInstruments.DigitalWaveformSampleCollection.System#Collections#ICollection#IsSynchronized">
             <exclude/>
@@ -27055,6 +27749,20 @@
             <updatedby>Whitney Bates</updatedby>
             <approved>True</approved>
         </member>
+        <member name="M:NationalInstruments.DigitalWaveformSignalCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalWaveformSignal}#Contains(NationalInstruments.DigitalWaveformSignal)">
+            <summary>
+            Determines whether the <see cref="T:System.Collections.Generic.ICollection`1"/> contains a specific value.
+            </summary>
+            <param name="item">
+            The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </param>
+            <returns>
+                <see langword="true"/> if item is found in the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, <see langword="false"/>.
+            </returns>
+            <lastupdated>9/28/2009 2:41:23 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>False</approved>
+        </member>
         <member name="M:NationalInstruments.DigitalWaveformSignalCollection.CopyTo(NationalInstruments.DigitalWaveformSignal[],System.Int32)">
             <summary>
             Copies the collection to an array or a portion of an array.
@@ -27103,6 +27811,68 @@
             <updatedby>Whitney Bates</updatedby>
             <approved>True</approved>
         </member>
+        <member name="M:NationalInstruments.DigitalWaveformSignalCollection.System#Collections#IEnumerable#GetEnumerator">
+            <exclude/>
+            <lastupdated>9/19/2009 4:21:25 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>True</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalWaveformSignalCollection.System#Collections#Generic#IEnumerable{NationalInstruments#DigitalWaveformSignal}#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+            <lastupdated>9/28/2009 2:58:23 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalWaveformSignalCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalWaveformSignal}#Add(NationalInstruments.DigitalWaveformSignal)">
+            <exclude/>
+            <summary>
+            This method is not supported.
+            </summary>
+            <param name="item">This parameter is not documented because the method is not supported.</param>
+            <remarks><see cref="T:NationalInstruments.DigitalWaveformSignalCollection"/> does not support adding new items to the collection.</remarks>
+            <exception cref="T:System.NotSupportedException">
+            This exception is always thrown.
+            </exception>
+            <lastupdated>9/18/2009 7:50:37 AM</lastupdated>
+            <updatedby>Lisa Hannan</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalWaveformSignalCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalWaveformSignal}#Clear">
+            <exclude/>
+            <summary>
+            This method is not supported.
+            </summary>
+            <remarks><see cref="T:NationalInstruments.DigitalWaveformSignalCollection"/> does not support clearing the collection.</remarks>
+            <exception cref="T:System.NotSupportedException">
+            This exception is always thrown.
+            </exception>
+            <lastupdated>9/15/2009 1:08:28 PM</lastupdated>
+            <updatedby>Lisa Hannan</updatedby>
+            <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.DigitalWaveformSignalCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalWaveformSignal}#Remove(NationalInstruments.DigitalWaveformSignal)">
+            <exclude/>
+            <summary>
+            This method is not supported.
+            </summary>
+            <param name="item">This parameter is not documented because the method is not supported.</param>
+            <returns>The return value is not documented because the method is not supported.</returns>
+            <remarks>
+                <see cref="T:NationalInstruments.DigitalWaveformSignalCollection"/>
+            does not support removing items from the collection.
+            </remarks>
+            <exception cref="T:System.NotSupportedException">
+            This exception is always thrown.
+            </exception>
+            <lastupdated>9/18/2009 7:51:46 AM</lastupdated>
+            <updatedby>Lisa Hannan</updatedby>
+            <approved>False</approved>
+        </member>
         <member name="P:NationalInstruments.DigitalWaveformSignalCollection.Item(System.Int32)">
             <summary>
             Gets the <see cref="T:NationalInstruments.DigitalWaveformSignal"/> at the specified index.
@@ -27145,6 +27915,17 @@
             <lastupdated>9/16/2005 10:26:09 AM</lastupdated>
             <updatedby>Whitney Bates</updatedby>
             <approved>True</approved>
+        </member>
+        <member name="P:NationalInstruments.DigitalWaveformSignalCollection.System#Collections#Generic#ICollection{NationalInstruments#DigitalWaveformSignal}#IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
+            </summary>
+            <value>
+                <see langword="true"/> if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, <see langword="false"/>.
+            </value>
+            <lastupdated>9/28/2009 2:56:42 PM</lastupdated>
+            <updatedby>Measurement Studio</updatedby>
+            <approved>False</approved>
         </member>
         <member name="P:NationalInstruments.DigitalWaveformSignalCollection.System#Collections#ICollection#IsSynchronized">
             <exclude/>
@@ -35431,6 +36212,7 @@
              A <see cref="T:NationalInstruments.DataInfrastructure.WritableBuffer`1" crefType="Unqualified"/> representing the
              data of the spectrum.
              </returns>
+             <exception cref="T:System.InvalidOperationException"><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</exception>
              <example>
              The following code demonstrates how to use <see cref="T:NationalInstruments.DataInfrastructure.WritableBuffer`1" crefType="Unqualified"/>.
              <code lang="VB.NET">
@@ -35468,6 +36250,7 @@
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="data"/> is <see langword="null"/>.
             </exception>
+            <exception cref="T:System.InvalidOperationException"><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</exception>
             <remarks>
             If <see cref="P:NationalInstruments.Spectrum`1.SampleCount" crefType="Unqualified"/> plus
             the number of elements in <paramref name="data"/> is larger than <see cref="P:NationalInstruments.Spectrum`1.Capacity" crefType="Unqualified"/>,
@@ -35475,7 +36258,7 @@
             force this allocation to occur before appending data by setting the <see cref="P:NationalInstruments.Spectrum`1.Capacity" crefType="Unqualified"/>
             of the spectrum large enough to hold the data you append.
             <note type="note">
-             Appending the data to the <see cref="T:NationalInstruments.Spectrum`1"/>  using this method does not affect the <see cref="P:NationalInstruments.Spectrum`1.StartFrequency"/> or the<see cref="P:NationalInstruments.Spectrum`1.FrequencyIncrement"/> values.
+             Appending the data to the <see cref="T:NationalInstruments.Spectrum`1"/> using this method does not affect the <see cref="P:NationalInstruments.Spectrum`1.StartFrequency"/> or the<see cref="P:NationalInstruments.Spectrum`1.FrequencyIncrement"/> values.
             </note>
             </remarks>
             <lastupdated>11/28/2013 4:36:19 PM</lastupdated>
@@ -35493,6 +36276,7 @@
             <exception cref="T:System.ArgumentNullException">
                 <paramref name="spectrum"/> is <see langword="null"/>.
             </exception>
+            <exception cref="T:System.InvalidOperationException"><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</exception>
             <remarks>
             <para>
             If <see cref="P:NationalInstruments.Spectrum`1.SampleCount" crefType="Unqualified"/> plus
@@ -35502,7 +36286,7 @@
             of the spectrum large enough to hold the spectrum data you append.
             </para>
             <note type="note">
-             Appending the data to the <see cref="T:NationalInstruments.Spectrum`1"/>  using this method does not affect the <see cref="P:NationalInstruments.Spectrum`1.StartFrequency"/> or the <see cref="P:NationalInstruments.Spectrum`1.FrequencyIncrement"/> values.
+             Appending the data to the <see cref="T:NationalInstruments.Spectrum`1"/> using this method does not affect the <see cref="P:NationalInstruments.Spectrum`1.StartFrequency"/> or the <see cref="P:NationalInstruments.Spectrum`1.FrequencyIncrement"/> values.
             </note>
             </remarks>
             <lastupdated>11/28/2013 4:35:42 PM</lastupdated>
@@ -35522,6 +36306,7 @@
                 <para>- or -</para>
                 <para>An element in <paramref name="spectrums"/> is <see langword="null"/>.</para>
             </exception>
+            <exception cref="T:System.InvalidOperationException"><see cref="P:NationalInstruments.IWaveform.IsReadOnly"/> is <see langword="true"/>.</exception>
             <remarks>
             <para>
             The spectrums are appended to the current spectrum in the order in which they appear
@@ -35537,7 +36322,7 @@
             of the spectrum large enough to hold the spectrum data you append.
             </para>
             <note type="note">
-             Appending the data to the <see cref="T:NationalInstruments.Spectrum`1"/>  using this method does not affect the <see cref="P:NationalInstruments.Spectrum`1.StartFrequency"/> or the<see cref="P:NationalInstruments.Spectrum`1.FrequencyIncrement"/> values.
+             Appending the data to the <see cref="T:NationalInstruments.Spectrum`1"/> using this method does not affect the <see cref="P:NationalInstruments.Spectrum`1.StartFrequency"/> or the<see cref="P:NationalInstruments.Spectrum`1.FrequencyIncrement"/> values.
             </note>
             </remarks>
             <lastupdated>11/28/2013 4:35:57 PM</lastupdated>
@@ -35557,6 +36342,9 @@
             <lastupdated>11/26/2013 12:24:34 PM</lastupdated>
             <updatedby>ITAdmin</updatedby>
             <approved>False</approved>
+        </member>
+        <member name="M:NationalInstruments.Spectrum`1.NationalInstruments#IWaveform#MakeSamplesReadOnly">
+            <inheritdoc/>
         </member>
         <member name="M:NationalInstruments.Spectrum`1.System#IServiceProvider#GetService(System.Type)">
             <exclude/>
@@ -35692,6 +36480,9 @@
             <lastupdated>11/26/2013 11:36:43 AM</lastupdated>
             <updatedby>ITAdmin</updatedby>
             <approved>False</approved>
+        </member>
+        <member name="P:NationalInstruments.Spectrum`1.NationalInstruments#IWaveform#IsReadOnly">
+            <inheritdoc/>
         </member>
         <member name="T:NationalInstruments.SpectrumCollection`1">
             <summary>
