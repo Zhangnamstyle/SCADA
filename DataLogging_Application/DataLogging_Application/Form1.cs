@@ -15,9 +15,13 @@ namespace DataLogging_Application
 {
     public partial class Form1 : Form
     {
+        static string opcBoolURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Boolean";
+        OPC testOPC = new OPC(opcBoolURL);
+       
         public Form1()
         {
             InitializeComponent();
+            
             string conUrl = "";
             OPC myOPC = new OPC(conUrl);
             string val = myOPC.readFromOPC();
@@ -39,11 +43,12 @@ namespace DataLogging_Application
 
             timer1.Start();
         }
-
+        
         private void timer1_Tick(object sender, EventArgs e)
         {
             try
             {
+                setOPC();
                 string conUrl = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
 
                 OPC myOPC = new OPC(conUrl);
@@ -74,5 +79,19 @@ namespace DataLogging_Application
             OPC myOPC = new OPC(conUrl);
             myOPC.writeToOPC(Convert.ToDouble(textBox1.Text.ToString()));
         }
+
+           private void setOPC()
+        {
+            
+            testOPC.writeToOPC(true);
+        }
+        private void CreateOPC()
+        {
+            //READ FROM CSV FILE TAGS.
+            //FOR ...
+
+
+        }
+        
     }
 }

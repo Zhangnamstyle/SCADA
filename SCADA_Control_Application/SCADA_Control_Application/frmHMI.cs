@@ -17,7 +17,12 @@ namespace SCADA_Control_Application
         private double u;
         private int count;
         int cntTest = 0;
+        int cntOPCTest = 0;
+        static bool lastTest = false;
+
         OPC test;
+        static string opcBoolURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Boolean";
+        OPC testOPC = new OPC(opcBoolURL);
 
         public frmHMI()
         {
@@ -25,9 +30,11 @@ namespace SCADA_Control_Application
             InitParam();
             IOCom.deviceName = "Dev3";
             string opcURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
+            
             test = new OPC(opcURL);
             test.writeToOPC(20);
-            
+            timer2.Start();
+
         }
 
         private void InitParam()
@@ -66,16 +73,20 @@ namespace SCADA_Control_Application
         {
             cntTest++;
             u = Controller.PI(temp);
+            textBox2.Text = u.ToString();
             temp = Simulator.sim(u);
             label2.Text = temp.ToString();
             count++;
             if(cntTest >= 2)
             {
-                test.writeToOPC(temp);
-                chart1.Series["Series1"].Points.AddY(temp);
-                cntTest = 0;
-                double readVolt = IOCom.ReadInput();
-                textBox1.Text = readVolt.ToString();
+               
+                    test.writeToOPC(temp);
+                    chart1.Series["Series1"].Points.AddY(temp);
+                    chart1.ResetAutoValues();
+                    cntTest = 0;
+                    double readVolt = IOCom.ReadInput();
+                    textBox1.Text = readVolt.ToString();
+          
             }
 
             
@@ -107,8 +118,55 @@ namespace SCADA_Control_Application
         private void trackBar2_ValueChanged(object sender, EventArgs e)
         {
             textBox2.Text = trackBar2.Value.ToString();
-            IOCom.WriteOutput(trackBar2.Value);
+            //IOCom.WriteOutput(trackBar2.Value);
 
+        }
+        private void checkOPC()
+        {
+            bool test = testOPC.readFromOPC();
+            label3.Text = test.ToString();
+            if (!test)
+            {
+                
+                cntOPCTest++;
+                if (cntOPCTest >= 3)
+                {
+                    timer1.Stop();
+                    timer2.Stop();
+                    MessageBox.Show("SHOT THE FUCK DOWN", "ALARM");
+                    while(!test)
+                    {
+                        textBox1.Text = "Trying to reconnect";
+                        test = testOPC.readFromOPC();
+                    }
+                    if(test)
+                    {
+                        timer1.Start();
+                        timer2.Start();
+                    }
+                    
+                    cntOPCTest = 0;
+                }
+            }
+            if (test)
+            {
+                testOPC.writeToOPC(false);
+            }
+            if(test && !lastTest)
+            {
+                cntOPCTest = 0;
+            }
+            lastTest = test;
+            
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            checkOPC();
+        }
+        double vToC(double v)
+        {
+            return (v - 1) * (50 / 4);
         }
     }
 }

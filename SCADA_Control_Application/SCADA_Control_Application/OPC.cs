@@ -41,5 +41,28 @@ namespace SCADA_Control_Application
                 ds.Update();
             }
         }
+        public void writeToOPC(bool opcValue)
+        {
+            using (DataSocket ds = new DataSocket())
+            {
+                if (ds.IsConnected) ds.Disconnect();
+                var temp = opcValue;
+                ds.Connect(opcURL, AccessMode.Write);
+                ds.Data.Value = temp;
+                ds.Update();
+            }
+        }
+        public bool readFromOPC()
+        {
+            bool OPCvalue = false;
+            using (DataSocket ds = new DataSocket())
+            {
+                ds.Connect(opcURL, AccessMode.Read);
+                ds.Update();
+                OPCvalue = Convert.ToBoolean(ds.Data.Value);
+            }
+
+            return OPCvalue;
+        }
     }
 }

@@ -38,6 +38,16 @@ namespace DataLogging_Application
                 ds.Update();
             }
 
+        }
+        public void writeToOPC(bool opcValue)
+        {
+
+            using (DataSocket ds = new DataSocket())
+            {
+                ds.Connect(opcConUrl, AccessMode.Write);
+                ds.Data.Value = opcValue;
+                ds.Update();
+            }
 
         }
     }
