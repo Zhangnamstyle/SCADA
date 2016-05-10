@@ -17,10 +17,12 @@ namespace DataLogging_Application
     {
         static string opcBoolURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Boolean";
         OPC testOPC = new OPC(opcBoolURL);
+        OPC[] test;
        
         public Form1()
         {
             InitializeComponent();
+            test = createTags();
             
             string conUrl = "";
             OPC myOPC = new OPC(conUrl);
@@ -74,24 +76,54 @@ namespace DataLogging_Application
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            string conUrl = "opc://localhost/Matrikon.OPC.Simulation/Tags.Temperature";
-
-            OPC myOPC = new OPC(conUrl);
-            myOPC.writeToOPC(Convert.ToDouble(textBox1.Text.ToString()));
+            createTags();
         }
 
            private void setOPC()
         {
             
             testOPC.writeToOPC(true);
+            
         }
-        private void CreateOPC()
+        public OPC[] createTags()
         {
-            //READ FROM CSV FILE TAGS.
-            //FOR ...
+            int tagCount = 0;
+            string querry = "SELECT * FROM TAGCONFIGURATION";
+            DataTable tbl = fillTable(querry);
+            OPC[] tagOBJ = new OPC[tbl.Rows.Count];
+            for(int i = 0; i<tbl.Rows.Count;i++)
+            {
+                tagCount = i;
+                tagOBJ[i] = new OPC(tbl.Rows[tagCount]["ItemUrl"].ToString());
 
-
+            }
+            MessageBox.Show("TEST");
+            return tagOBJ;
         }
-        
+        public DataTable fillTable(string sqlQuery)
+        {
+            DataTable tbl = new DataTable();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Settings.Default.conString))
+                {
+                    con.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(tbl);
+                    }
+                    con.Close();
+
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return tbl;
+        }
+     
     }
 }

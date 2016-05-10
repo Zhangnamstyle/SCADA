@@ -7,7 +7,7 @@ using NationalInstruments.Net;
 
 namespace DataLogging_Application
 {
-    class OPC
+    public class OPC
     {
         private string opcConUrl;
         public OPC(string opcUrl)
