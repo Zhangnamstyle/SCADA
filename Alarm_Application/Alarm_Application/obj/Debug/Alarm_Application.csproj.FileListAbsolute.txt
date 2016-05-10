@@ -1,0 +1,1 @@
+C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\bin\Debug\Alarm_Application.exe.config
