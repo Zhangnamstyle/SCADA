@@ -17,9 +17,28 @@ namespace SCADA_Control_Application
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmHMI());
+            using (var startUpForm = new frmStartUp())
+            {
+                startUpForm.StartPosition |= FormStartPosition.CenterScreen;
+                DialogResult result = startUpForm.ShowDialog();
+                if(result == DialogResult.No)
+                {
+                    Application.Run(new frmHIL());
+                }
+
+                else if(result == DialogResult.OK)
+                {
+                    Application.Run(new frmLogging());
+                }
+                else
+                {
+                    Application.Run(new frmSimulation());
+                }
+            }
+                
 
            
         }
     }
+   
 }

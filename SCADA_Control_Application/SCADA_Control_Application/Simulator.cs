@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace SCADA_Control_Application
 {
@@ -22,14 +23,9 @@ namespace SCADA_Control_Application
         public static double sim(double u)
         {
             double dTout_k;
-            
 
-            double[] dly = new double[N];
-            dly[1] = u;
-            for (int k = N - 1; k <= -1; k--)
-            {
-                dly[k + 1] = dly[k];
-            }
+            Thread.Sleep(1800);
+
             dTout_k = (1 / ThetaT) * (-Tout_k + envTemp + Kh * u);
             Tout_k_1 = Ts * dTout_k + Tout_k;
             Tout_k = Tout_k_1;

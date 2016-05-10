@@ -11,7 +11,7 @@ using NationalInstruments;
 
 namespace SCADA_Control_Application
 {
-    public partial class frmHMI : Form
+    public partial class frmSimulation : Form
     {
         private double temp;
         private double u;
@@ -19,22 +19,30 @@ namespace SCADA_Control_Application
         int cntTest = 0;
         int cntOPCTest = 0;
         static bool lastTest = false;
-
+        
         OPC test;
         static string opcBoolURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Boolean";
         OPC testOPC = new OPC(opcBoolURL);
 
-        public frmHMI()
+        public frmSimulation()
         {
             InitializeComponent();
             InitParam();
             IOCom.deviceName = "Dev3";
             string opcURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
-            
+            sim();
             test = new OPC(opcURL);
             test.writeToOPC(20);
             timer2.Start();
+            
+            MessageBox.Show("Hello");
 
+        }
+        async Task sim()
+        {
+            int u = 0;
+            double y = await Task.Run(() => Simulator.sim(u));
+            MessageBox.Show(y.ToString());
         }
 
         private void InitParam()

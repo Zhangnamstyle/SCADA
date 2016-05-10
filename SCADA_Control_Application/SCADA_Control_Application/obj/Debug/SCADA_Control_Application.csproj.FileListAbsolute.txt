@@ -13,7 +13,6 @@ C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Ap
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\SCADA_Control_Application.exe
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\SCADA_Control_Application.pdb
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.csprojResolveAssemblyReference.cache
-C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.frmHMI.resources
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.Properties.Resources.resources
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.csproj.GenerateResource.Cache
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Common.dll
@@ -23,10 +22,13 @@ C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Ap
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Common.xml
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Net.xml
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.exe.licenses
-C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.Form1.resources
 C:\Users\Kim\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\SCADA_Control_Application.exe.config
 C:\Users\Kim\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.exe
 C:\Users\Kim\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.pdb
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.DAQmx.dll
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.DAQmx.xml
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.csproj.SCADA_Control_Application.exe.config
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.frmStartUp.resources
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.frmSimulation.resources
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.frmHIL.resources
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.frmLogging.resources

@@ -10,14 +10,11 @@ using System.Windows.Forms;
 
 namespace SCADA_Control_Application
 {
-    public partial class Form1 : Form
+    public partial class frmLogging : Form
     {
-        public bool test = false;
-        public Form1()
+        public frmLogging()
         {
             InitializeComponent();
-            
         }
-
     }
 }
