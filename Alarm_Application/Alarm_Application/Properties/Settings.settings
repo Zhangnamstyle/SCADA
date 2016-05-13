@@ -5,5 +5,8 @@
     <Setting Name="ConnectionString" Type="System.String" Scope="User">
       <Value Profile="(Default)">Data Source=azg.asuscomm.com,49172;Initial Catalog=SCADADB;User Id=KIM;Password=abc123</Value>
     </Setting>
+    <Setting Name="username" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Jaran</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

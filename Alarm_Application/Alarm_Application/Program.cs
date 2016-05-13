@@ -16,7 +16,17 @@ namespace Alarm_Application
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            using (var startup = new startUp())
+            {
+                startup.StartPosition |= FormStartPosition.CenterScreen;
+                DialogResult result = startup.ShowDialog();
+                if(result == DialogResult.OK)
+                {
+                    Application.Run(new frmAlarmList());
+                }
+                
+            }
+                
         }
     }
 }

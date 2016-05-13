@@ -29,3 +29,6 @@ C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Ap
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.frmSimulation.resources
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.frmHIL.resources
 C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\obj\Debug\SCADA_Control_Application.frmLogging.resources
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Common.dll
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.DAQmx.dll
+C:\Users\alexa\Documents\GitHub\SCADA\SCADA_Control_Application\SCADA_Control_Application\bin\Debug\NationalInstruments.Net.dll

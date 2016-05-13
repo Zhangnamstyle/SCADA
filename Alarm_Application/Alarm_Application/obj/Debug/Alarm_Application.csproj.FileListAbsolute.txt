@@ -10,9 +10,10 @@ C:\Users\Kim\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debu
 C:\Users\Kim\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.pdb
 C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\bin\Debug\Alarm_Application.exe
 C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\bin\Debug\Alarm_Application.pdb
-C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.csprojResolveAssemblyReference.cache
-C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.Form1.resources
 C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.Properties.Resources.resources
 C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.csproj.GenerateResource.Cache
 C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.exe
 C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.pdb
+C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.frmAlarmList.resources
+C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.startUp.resources
+C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.csprojResolveAssemblyReference.cache
