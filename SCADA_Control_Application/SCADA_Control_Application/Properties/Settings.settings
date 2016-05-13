@@ -1,7 +1,27 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SCADA_Control_Application.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Kh" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">3.78</Value>
+    </Setting>
+    <Setting Name="envTemp" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">21</Value>
+    </Setting>
+    <Setting Name="Tdly" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1.8571</Value>
+    </Setting>
+    <Setting Name="Ts" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="ThetaT" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">15.3089</Value>
+    </Setting>
+    <Setting Name="Kp" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1.2</Value>
+    </Setting>
+    <Setting Name="Ti" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">9</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

@@ -141,7 +141,7 @@ namespace SCADA_Control_Application
                 {
                     timer1.Stop();
                     timer2.Stop();
-                    MessageBox.Show("SHOT THE FUCK DOWN", "ALARM");
+                    MessageBox.Show("Error connecting to OPC", "ALARM");
                     while(!test)
                     {
                         textBox1.Text = "Trying to reconnect";
