@@ -13,6 +13,8 @@ namespace DataLogging_Application
         private string itURL { get; set; }
         private string tName { get; set; }
         private string itID { get; set; }
+        private string opcQuality { get; set; }
+        private string opcStatus { get; set; }
 
         
         public OPC(int tagID,string tagName,string itemID,string itemUrl)
@@ -21,23 +23,42 @@ namespace DataLogging_Application
             itURL = itemUrl;
             tName = tagName;
             itID = itemID;
+            opcQuality = "Unknown";
+            opcStatus = "Active";
         }
         public OPC(string itemURL)
         {
             itURL = itemURL;
         }
-        
-        public string readFromOPC()
+        public int getTagID()
         {
-            string OPCvalue = "";
-            using (DataSocket ds = new DataSocket()) 
+            return tId;
+        }
+        public string getQuality()
+        {
+            return opcQuality;
+        }
+        public string getStatus()
+        {
+            return opcStatus;
+        }
+        public double readFromOPC()
+        {
+            double OPCvalue = 0;
+            try
             {
-                ds.Connect(itURL, AccessMode.Read);
-                ds.Update();
-                OPCvalue = Convert.ToString(ds.Data.Value);
+                using (DataSocket ds = new DataSocket())
+                {
+                    ds.Connect(itURL, AccessMode.Read);
+                    ds.Update();
+                    OPCvalue = Convert.ToDouble(ds.Data.Value);
+                    opcQuality = ds.Data.Attributes["Quality"].Value.ToString();
+                }
             }
-                
-
+            catch(Exception ex)
+            {
+                OPCvalue = 998;
+            }
             return OPCvalue;
         }
 

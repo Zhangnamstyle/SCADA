@@ -17,16 +17,12 @@ namespace DataLogging_Application
     {
         static string opcBoolURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Boolean";
         OPC testOPC = new OPC(opcBoolURL);
-        OPC[] test;
+        OPC[] opcTags;
        
         public Form1()
         {
             InitializeComponent();
-            test = createTags();
-            
-            string conUrl = "";
-            OPC myOPC = new OPC(conUrl);
-            string val = myOPC.readFromOPC();
+            opcTags = createTags();
 
         }
 
@@ -41,26 +37,29 @@ namespace DataLogging_Application
             try
             {
                 setOPC();
-                string conUrl = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
-
-                OPC myOPC = new OPC(conUrl);
-                string val = myOPC.readFromOPC();
-                txtBxOpcVal.Text = val;
-
-                using (SqlConnection con = new SqlConnection(Settings.Default.conString))
+                int countOPC = 0;
+                foreach(OPC obj in opcTags)
                 {
-                    SqlCommand cmd = new SqlCommand("INSERT INTO TEST(TestTime,TestValue) VALUES (getdate(),@VALUE)");
+                    double tempVal = opcTags[countOPC].readFromOPC();
+                    int tagID = opcTags[countOPC].getTagID();
+                    string opcQuality = opcTags[countOPC].getQuality();
+                    string opcStatus = opcTags[countOPC].getStatus();
+                    SqlCommand cmd = new SqlCommand("EXECUTE NewTagItem @QUALITY,@TIMESTAMP,@VALUE,@TAGID,@STATUS");
                     cmd.CommandType = CommandType.Text;
-                    cmd.Connection = con;
-                    cmd.Parameters.AddWithValue("@VALUE", Convert.ToDouble(val));
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
+                    cmd.Parameters.AddWithValue("@QUALITY", opcQuality);
+                    cmd.Parameters.AddWithValue("@TIMESTAMP", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@VALUE", tempVal);
+                    cmd.Parameters.AddWithValue("@TAGID", tagID);
+                    cmd.Parameters.AddWithValue("@STATUS", opcStatus);
+                    dbComm.writeToDB(cmd);
+                    countOPC++;
                 }
+                
+                
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
         }
 

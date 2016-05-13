@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
+    <Compile Include="createTAG.cs" />
     <Compile Include="frmHIL.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -13,14 +13,17 @@ namespace SCADA_Control_Application
 {
     public partial class frmSimulation : Form
     {
-        private double temp;
-        private double u;
+        private double temp { get; set; }
+        private double u { get; set; }
+        private DateTime dateT { get; set; }
+
         private int count;
+
         int cntTest = 0;
         int cntOPCTest = 0;
         static bool lastTest = false;
-        
-        OPC test;
+
+        OPC[] opcTags;
         static string opcBoolURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Boolean";
         OPC testOPC = new OPC(opcBoolURL);
 
@@ -29,13 +32,11 @@ namespace SCADA_Control_Application
             InitializeComponent();
             InitParam();
             IOCom.deviceName = "Dev3";
-            string opcURL = "opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Real4";
             sim();
-            test = new OPC(opcURL);
-            test.writeToOPC(20);
+            opcTags = createTAG.creatOPCTags();
+
             timer2.Start();
             
-            MessageBox.Show("Hello");
 
         }
         async Task sim()
@@ -83,21 +84,24 @@ namespace SCADA_Control_Application
             u = Controller.PI(temp);
             textBox2.Text = u.ToString();
             temp = Simulator.sim(u);
+            dateT = DateTime.Now;
             label2.Text = temp.ToString();
             count++;
             if(cntTest >= 2)
             {
-               
-                    test.writeToOPC(temp);
+                int countOPC = 0;
+                    foreach(OPC obj in opcTags)
+                {
+                    opcTags[countOPC].writeToOPC(temp, u, dateT);
+                    countOPC++;
+                }
                     chart1.Series["Series1"].Points.AddY(temp);
                     chart1.ResetAutoValues();
                     cntTest = 0;
-                    double readVolt = IOCom.ReadInput();
-                    textBox1.Text = readVolt.ToString();
-          
+                    
+                    
             }
 
-            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -112,21 +116,9 @@ namespace SCADA_Control_Application
 
         }
 
-        private void frmHMI_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            
-            
-        }
-
         private void trackBar2_ValueChanged(object sender, EventArgs e)
         {
             textBox2.Text = trackBar2.Value.ToString();
-            //IOCom.WriteOutput(trackBar2.Value);
 
         }
         private void checkOPC()
@@ -176,5 +168,6 @@ namespace SCADA_Control_Application
         {
             return (v - 1) * (50 / 4);
         }
+        
     }
 }

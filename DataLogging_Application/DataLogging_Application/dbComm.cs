@@ -12,14 +12,11 @@ namespace DataLogging_Application
 {
     static class dbComm
     {
-        public static void writeToDB()
+        public static void writeToDB(SqlCommand cmd)
         {
             using (SqlConnection con = new SqlConnection(Settings.Default.conString))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO TEST(TestTime,TestValue) VALUES (getdate(),@VALUE)");
-                cmd.CommandType = CommandType.Text;
                 cmd.Connection = con;
-                cmd.Parameters.AddWithValue("@VALUE", Convert.ToDouble(14));
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
