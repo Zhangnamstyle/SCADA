@@ -30,19 +30,9 @@ namespace DataLogging_Application
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+     
         private void button1_Click(object sender, EventArgs e)
         {
-
             timer1.Start();
         }
         
@@ -89,41 +79,21 @@ namespace DataLogging_Application
         {
             int tagCount = 0;
             string querry = "SELECT * FROM TAGCONFIGURATION";
-            DataTable tbl = fillTable(querry);
+            DataTable tbl = dbComm.fillTable(querry);
             OPC[] tagOBJ = new OPC[tbl.Rows.Count];
             for(int i = 0; i<tbl.Rows.Count;i++)
             {
                 tagCount = i;
-                tagOBJ[i] = new OPC(tbl.Rows[tagCount]["ItemUrl"].ToString());
+                int tagID = Convert.ToInt16(tbl.Rows[i]["TagID"]);
+                string tagName = tbl.Rows[i]["TagName"].ToString();
+                string itemID = tbl.Rows[i]["Itemid"].ToString();
+                string itemUrl = tbl.Rows[tagCount]["ItemUrl"].ToString();
+                tagOBJ[i] = new OPC(tagID,tagName,itemID,itemUrl);
 
             }
-            MessageBox.Show("TEST");
             return tagOBJ;
         }
-        public DataTable fillTable(string sqlQuery)
-        {
-            DataTable tbl = new DataTable();
-            try
-            {
-                using (SqlConnection con = new SqlConnection(Settings.Default.conString))
-                {
-                    con.Open();
-
-                    using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                    {
-                        da.Fill(tbl);
-                    }
-                    con.Close();
-
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            return tbl;
-        }
+       
      
     }
 }

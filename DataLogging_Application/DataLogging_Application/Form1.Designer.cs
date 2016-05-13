@@ -52,7 +52,6 @@
             this.txtBxOpcVal.Name = "txtBxOpcVal";
             this.txtBxOpcVal.Size = new System.Drawing.Size(100, 20);
             this.txtBxOpcVal.TabIndex = 1;
-            this.txtBxOpcVal.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // timer1
             // 
@@ -89,7 +88,6 @@
             this.Controls.Add(this.btnRead);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

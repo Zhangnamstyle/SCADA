@@ -9,10 +9,22 @@ namespace DataLogging_Application
 {
     public class OPC
     {
-        private string opcConUrl;
-        public OPC(string opcUrl)
+        private int tId { get; set; }
+        private string itURL { get; set; }
+        private string tName { get; set; }
+        private string itID { get; set; }
+
+        
+        public OPC(int tagID,string tagName,string itemID,string itemUrl)
         {
-            this.opcConUrl = opcUrl;
+            tId = tagID;
+            itURL = itemUrl;
+            tName = tagName;
+            itID = itemID;
+        }
+        public OPC(string itemURL)
+        {
+            itURL = itemURL;
         }
         
         public string readFromOPC()
@@ -20,7 +32,7 @@ namespace DataLogging_Application
             string OPCvalue = "";
             using (DataSocket ds = new DataSocket()) 
             {
-                ds.Connect(opcConUrl, AccessMode.Read);
+                ds.Connect(itURL, AccessMode.Read);
                 ds.Update();
                 OPCvalue = Convert.ToString(ds.Data.Value);
             }
@@ -28,23 +40,13 @@ namespace DataLogging_Application
 
             return OPCvalue;
         }
-        public void writeToOPC(double opcValue)
-        {
-            
-            using (DataSocket ds = new DataSocket())
-            {
-                ds.Connect(opcConUrl, AccessMode.Write);
-                ds.Data.Value = opcValue;
-                ds.Update();
-            }
 
-        }
         public void writeToOPC(bool opcValue)
         {
 
             using (DataSocket ds = new DataSocket())
             {
-                ds.Connect(opcConUrl, AccessMode.Write);
+                ds.Connect(itURL, AccessMode.Write);
                 ds.Data.Value = opcValue;
                 ds.Update();
             }

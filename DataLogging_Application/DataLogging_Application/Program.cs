@@ -16,7 +16,15 @@ namespace DataLogging_Application
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            using (var TagForm = new frmTagConfig())
+            {
+                DialogResult res = TagForm.ShowDialog();
+                if(res == DialogResult.OK)
+                {
+                    Application.Run(new Form1());
+                }
+                
+            }
         }
     }
 }
