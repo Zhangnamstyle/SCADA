@@ -75,7 +75,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
-    <Compile Include="createTAG.cs" />
+    <Compile Include="filter.cs" />
+    <Compile Include="opcHandler.cs" />
     <Compile Include="frmHIL.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +105,7 @@
     <Compile Include="OPC.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Simulator.cs" />
     <EmbeddedResource Include="frmHIL.resx">
       <DependentUpon>frmHIL.cs</DependentUpon>

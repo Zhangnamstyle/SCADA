@@ -29,37 +29,37 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            this.crtData = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
             this.btnStart = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.trbSp = new System.Windows.Forms.TrackBar();
             this.lblSetpoint = new System.Windows.Forms.Label();
             this.tmrCheck = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnStop = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.crtData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trbSp)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // chart1
+            // crtData
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.chart1.Location = new System.Drawing.Point(0, 0);
-            this.chart1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(1403, 666);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
+            chartArea1.Name = "ChartArea1";
+            this.crtData.ChartAreas.Add(chartArea1);
+            this.crtData.Dock = System.Windows.Forms.DockStyle.Top;
+            this.crtData.Location = new System.Drawing.Point(0, 0);
+            this.crtData.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.crtData.Name = "crtData";
+            this.crtData.Size = new System.Drawing.Size(1403, 666);
+            this.crtData.TabIndex = 0;
+            this.crtData.Text = "chtData";
             // 
             // tmrUpdate
             // 
-            this.tmrUpdate.Interval = 500;
+            this.tmrUpdate.Interval = 2000;
             this.tmrUpdate.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // btnStart
@@ -73,14 +73,14 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.button1_Click);
             // 
-            // trackBar1
+            // trbSp
             // 
-            this.trackBar1.Location = new System.Drawing.Point(978, 50);
-            this.trackBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(352, 69);
-            this.trackBar1.TabIndex = 2;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.trbSp.Location = new System.Drawing.Point(978, 50);
+            this.trbSp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.trbSp.Name = "trbSp";
+            this.trbSp.Size = new System.Drawing.Size(352, 69);
+            this.trbSp.TabIndex = 2;
+            this.trbSp.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             // 
             // lblSetpoint
             // 
@@ -94,12 +94,12 @@
             // 
             // tmrCheck
             // 
-            this.tmrCheck.Interval = 3000;
+            this.tmrCheck.Interval = 4000;
             this.tmrCheck.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.chart1);
+            this.panel1.Controls.Add(this.crtData);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -110,7 +110,7 @@
             // 
             this.panel2.Controls.Add(this.btnStop);
             this.panel2.Controls.Add(this.btnStart);
-            this.panel2.Controls.Add(this.trackBar1);
+            this.panel2.Controls.Add(this.trbSp);
             this.panel2.Controls.Add(this.lblSetpoint);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 659);
@@ -137,9 +137,9 @@
             this.Controls.Add(this.panel1);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmSimulation";
-            this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            this.Text = "PC Control System";
+            ((System.ComponentModel.ISupportInitialize)(this.crtData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trbSp)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -149,10 +149,10 @@
 
         #endregion
 
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart crtData;
         private System.Windows.Forms.Timer tmrUpdate;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trbSp;
         private System.Windows.Forms.Label lblSetpoint;
         private System.Windows.Forms.Timer tmrCheck;
         private System.Windows.Forms.Panel panel1;

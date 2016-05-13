@@ -61,7 +61,7 @@ namespace SCADA_Control_Application.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
         public double Ts {
             get {
                 return ((double)(this["Ts"]));
@@ -116,6 +116,18 @@ namespace SCADA_Control_Application.Properties {
             }
             set {
                 this["DevName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Boolean")]
+        public string opcCheckURL {
+            get {
+                return ((string)(this["opcCheckURL"]));
+            }
+            set {
+                this["opcCheckURL"] = value;
             }
         }
     }

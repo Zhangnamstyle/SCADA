@@ -28,41 +28,80 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.crtData = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.tmrCheck = new System.Windows.Forms.Timer(this.components);
+            this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.crtData)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.chart1);
+            this.panel1.Controls.Add(this.crtData);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1403, 636);
+            this.panel1.Size = new System.Drawing.Size(1403, 661);
             this.panel1.TabIndex = 0;
+            // 
+            // crtData
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.crtData.ChartAreas.Add(chartArea1);
+            this.crtData.Dock = System.Windows.Forms.DockStyle.Top;
+            this.crtData.Location = new System.Drawing.Point(0, 0);
+            this.crtData.Name = "crtData";
+            this.crtData.Size = new System.Drawing.Size(1403, 654);
+            this.crtData.TabIndex = 0;
+            this.crtData.Text = "crtData";
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnStop);
+            this.panel2.Controls.Add(this.btnStart);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 638);
+            this.panel2.Location = new System.Drawing.Point(0, 660);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1403, 122);
+            this.panel2.Size = new System.Drawing.Size(1403, 100);
             this.panel2.TabIndex = 1;
             // 
-            // chart1
+            // btnStop
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.chart1.Location = new System.Drawing.Point(0, 0);
-            this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(1403, 636);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
+            this.btnStop.Location = new System.Drawing.Point(146, 35);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(112, 36);
+            this.btnStop.TabIndex = 12;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
+            // btnStart
+            // 
+            this.btnStart.Location = new System.Drawing.Point(13, 35);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(112, 35);
+            this.btnStart.TabIndex = 11;
+            this.btnStart.Text = "Start";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // tmrCheck
+            // 
+            this.tmrCheck.Interval = 2000;
+            this.tmrCheck.Tick += new System.EventHandler(this.tmrCheck_Tick);
+            // 
+            // tmrUpdate
+            // 
+            this.tmrUpdate.Interval = 4000;
+            this.tmrUpdate.Tick += new System.EventHandler(this.tmrUpdate_Tick);
             // 
             // frmLogging
             // 
@@ -72,9 +111,10 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "frmLogging";
-            this.Text = " ";
+            this.Text = " Fuji Control System";
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.crtData)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -82,7 +122,11 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart crtData;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Timer tmrCheck;
+        private System.Windows.Forms.Timer tmrUpdate;
     }
 }

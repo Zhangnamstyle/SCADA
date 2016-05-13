@@ -12,7 +12,7 @@
       <Value Profile="(Default)">1.8571</Value>
     </Setting>
     <Setting Name="Ts" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0.5</Value>
+      <Value Profile="(Default)">2</Value>
     </Setting>
     <Setting Name="ThetaT" Type="System.Double" Scope="User">
       <Value Profile="(Default)">15.3089</Value>
@@ -25,6 +25,9 @@
     </Setting>
     <Setting Name="DevName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Dev4</Value>
+    </Setting>
+    <Setting Name="opcCheckURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">opc://localhost/Matrikon.OPC.Simulation/Bucket Brigade.Boolean</Value>
     </Setting>
   </Settings>
 </SettingsFile>
