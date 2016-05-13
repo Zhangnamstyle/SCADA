@@ -23,5 +23,8 @@
     <Setting Name="Ti" Type="System.Double" Scope="User">
       <Value Profile="(Default)">9</Value>
     </Setting>
+    <Setting Name="DevName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Dev4</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

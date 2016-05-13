@@ -13,9 +13,8 @@ namespace SCADA_Control_Application
 {
     public partial class frmSimulation : Form
     {
-        private double temp { get; set; }
-        private double u { get; set; }
-        private DateTime dateT { get; set; }
+        private double temp;
+        private double u;
 
         private int count;
 
@@ -30,24 +29,19 @@ namespace SCADA_Control_Application
         public frmSimulation()
         {
             InitializeComponent();
-            InitParam();
+            setupFRM();
             IOCom.deviceName = "Dev3";
-            sim();
+ 
             opcTags = createTAG.creatOPCTags();
-
-            timer2.Start();
-            
+            tmrCheck.Start();
 
         }
-        async Task sim()
-        {
-            int u = 0;
-            double y = await Task.Run(() => Simulator.sim(u));
-            MessageBox.Show(y.ToString());
-        }
 
-        private void InitParam()
+
+        private void setupFRM()
         {
+            btnStart.Enabled = true;
+            btnStop.Enabled = false;
 
             Simulator.envTemp = 21;
             Simulator.Kh = 3.87;
@@ -69,12 +63,16 @@ namespace SCADA_Control_Application
             trackBar1.Minimum = Convert.ToInt16(Simulator.envTemp);
             trackBar1.Maximum = 50;
             trackBar1.Value = 30;
-            label1.Text = trackBar1.Value.ToString();
-
-
-
+            lblSetpoint.Text = trackBar1.Value.ToString();
 
             chart1.Series.Add("Series1");
+            chart1.Series["Series1"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            chart1.Series["Series1"].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            chart1.Series["Series1"].Color = Color.Red;
+            chart1.ChartAreas[0].AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Minutes;
+            chart1.ChartAreas[0].AxisX.LabelStyle.Format = "HH:mm:ss";
+            chart1.ChartAreas[0].AxisY.LabelStyle.Format = "{0}°C";
+
 
         }
 
@@ -82,69 +80,68 @@ namespace SCADA_Control_Application
         {
             cntTest++;
             u = Controller.PI(temp);
-            textBox2.Text = u.ToString();
+            
             temp = Simulator.sim(u);
-            dateT = DateTime.Now;
-            label2.Text = temp.ToString();
+
+            
             count++;
             if(cntTest >= 2)
             {
                 int countOPC = 0;
                     foreach(OPC obj in opcTags)
                 {
-                    opcTags[countOPC].writeToOPC(temp, u, dateT);
+                    opcTags[countOPC].writeToOPC(temp, u);
                     countOPC++;
                 }
-                    chart1.Series["Series1"].Points.AddY(temp);
+                DateTime x = DateTime.Now;
+                    chart1.Series["Series1"].Points.AddXY(x.ToLocalTime(),temp);
                     chart1.ResetAutoValues();
                     cntTest = 0;
-                    
-                    
             }
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            timer1.Start();
+            tmrUpdate.Start();
+            if(tmrCheck.Enabled == false)
+            {
+                tmrCheck.Start();
+            }
+            btnStop.Enabled = true;
+            btnStart.Enabled = false;
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
             Controller.Sp = trackBar1.Value;
-            label1.Text = trackBar1.Value.ToString();
+            lblSetpoint.Text = trackBar1.Value.ToString();
 
         }
 
-        private void trackBar2_ValueChanged(object sender, EventArgs e)
-        {
-            textBox2.Text = trackBar2.Value.ToString();
-
-        }
         private void checkOPC()
         {
             bool test = testOPC.readFromOPC();
-            label3.Text = test.ToString();
+
             if (!test)
             {
-                
+
                 cntOPCTest++;
                 if (cntOPCTest >= 3)
                 {
-                    timer1.Stop();
-                    timer2.Stop();
+                    tmrUpdate.Stop();
+                    tmrCheck.Stop();
                     MessageBox.Show("Error connecting to OPC", "ALARM");
-                    while(!test)
+                    while (!test)
                     {
-                        textBox1.Text = "Trying to reconnect";
                         test = testOPC.readFromOPC();
                     }
-                    if(test)
+                    if (test)
                     {
-                        timer1.Start();
-                        timer2.Start();
+                        tmrUpdate.Start();
+                        tmrCheck.Start();
                     }
-                    
+
                     cntOPCTest = 0;
                 }
             }
@@ -164,10 +161,13 @@ namespace SCADA_Control_Application
         {
             checkOPC();
         }
-        double vToC(double v)
+
+        private void btnStop_Click(object sender, EventArgs e)
         {
-            return (v - 1) * (50 / 4);
+            tmrCheck.Stop();
+            tmrUpdate.Stop();
+            btnStart.Enabled = true;
+            btnStop.Enabled = false;
         }
-        
     }
 }

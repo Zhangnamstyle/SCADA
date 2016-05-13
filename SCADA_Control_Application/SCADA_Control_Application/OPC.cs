@@ -30,24 +30,20 @@ namespace SCADA_Control_Application
             this.itURL = itemURL;
         }
 
-        public void writeToOPC(double temperature,double u, DateTime dateTime)
+        public void writeToOPC(double temperature,double u)
         {
             try
             {
                 using (DataSocket ds = new DataSocket())
                 {
                     if (ds.IsConnected) ds.Disconnect();
-                    if (tName == "Temeperature")    
+                    if (tName == "Temperature")    
                     {
                         ds.Data.Value = temperature;
                     }
                     else if (tName == "Control")
                     {
                         ds.Data.Value = u;
-                    }
-                    else if (tName == "Time")
-                    {
-                        ds.Data.Value = dateTime;
                     }
                     ds.Connect(itURL, AccessMode.Write);
                     ds.Update();

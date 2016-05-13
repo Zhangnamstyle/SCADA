@@ -106,5 +106,17 @@ namespace SCADA_Control_Application.Properties {
                 this["Ti"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Dev4")]
+        public string DevName {
+            get {
+                return ((string)(this["DevName"]));
+            }
+            set {
+                this["DevName"] = value;
+            }
+        }
     }
 }

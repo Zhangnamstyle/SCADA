@@ -36,20 +36,22 @@
             // 
             // btnRead
             // 
-            this.btnRead.Location = new System.Drawing.Point(34, 51);
+            this.btnRead.Location = new System.Drawing.Point(24, 52);
+            this.btnRead.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnRead.Name = "btnRead";
-            this.btnRead.Size = new System.Drawing.Size(75, 23);
+            this.btnRead.Size = new System.Drawing.Size(112, 35);
             this.btnRead.TabIndex = 0;
-            this.btnRead.Text = "Read";
+            this.btnRead.Text = "Start";
             this.btnRead.UseVisualStyleBackColor = true;
             this.btnRead.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtBxOpcVal
             // 
-            this.txtBxOpcVal.Location = new System.Drawing.Point(181, 34);
+            this.txtBxOpcVal.Location = new System.Drawing.Point(187, 52);
+            this.txtBxOpcVal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtBxOpcVal.Multiline = true;
             this.txtBxOpcVal.Name = "txtBxOpcVal";
-            this.txtBxOpcVal.Size = new System.Drawing.Size(165, 40);
+            this.txtBxOpcVal.Size = new System.Drawing.Size(331, 130);
             this.txtBxOpcVal.TabIndex = 1;
             // 
             // timer1
@@ -59,11 +61,12 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(393, 246);
+            this.ClientSize = new System.Drawing.Size(590, 378);
             this.Controls.Add(this.txtBxOpcVal);
             this.Controls.Add(this.btnRead);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);

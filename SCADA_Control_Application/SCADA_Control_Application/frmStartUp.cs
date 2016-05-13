@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SCADA_Control_Application.Properties;
 
 namespace SCADA_Control_Application
 {
@@ -16,23 +17,30 @@ namespace SCADA_Control_Application
         public frmStartUp()
         {
             InitializeComponent();
+            string dev = Settings.Default.DevName.ToString();
+            txtDevName.Text = dev;
+            rdbSim.Checked = true;
             
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(radioButton1.Checked)
+            Settings.Default.DevName = txtDevName.Text.ToString();
+            Settings.Default.Save();
+            if(rdbSim.Checked)
             {
                 DialogResult = DialogResult.Yes;
             }
-            if(radioButton2.Checked)
+            if(rdbHil.Checked)
             {
                 DialogResult = DialogResult.No;
             }
-            if(radioButton3.Checked)
+            if(rdbLog.Checked)
             {
                 DialogResult = DialogResult.OK;
             }
         }
+
+       
     }
 }

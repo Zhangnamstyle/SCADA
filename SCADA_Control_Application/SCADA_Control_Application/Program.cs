@@ -19,7 +19,7 @@ namespace SCADA_Control_Application
             Application.SetCompatibleTextRenderingDefault(false);
             using (var startUpForm = new frmStartUp())
             {
-                startUpForm.StartPosition |= FormStartPosition.CenterScreen;
+                
                 DialogResult result = startUpForm.ShowDialog();
                 if(result == DialogResult.No)
                 {
