@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmAlarmLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAlarmLog.Designer.cs">
+      <DependentUpon>frmAlarmLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAlarmList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +66,9 @@
     <Compile Include="startUp.Designer.cs">
       <DependentUpon>startUp.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmAlarmLog.resx">
+      <DependentUpon>frmAlarmLog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAlarmList.resx">
       <DependentUpon>frmAlarmList.cs</DependentUpon>
     </EmbeddedResource>

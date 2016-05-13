@@ -17,3 +17,4 @@ C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\De
 C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.frmAlarmList.resources
 C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.startUp.resources
 C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.csprojResolveAssemblyReference.cache
+C:\Users\alexa\Documents\GitHub\SCADA\Alarm_Application\Alarm_Application\obj\Debug\Alarm_Application.frmAlarmLog.resources

@@ -33,16 +33,16 @@
             this.tmr = new System.Windows.Forms.Timer(this.components);
             this.lblUser = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
+            this.btnShowAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(13, 30);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dataGridView1.Location = new System.Drawing.Point(9, 21);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1513, 594);
+            this.dataGridView1.Size = new System.Drawing.Size(821, 386);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -54,31 +54,45 @@
             // lblUser
             // 
             this.lblUser.AutoSize = true;
-            this.lblUser.Location = new System.Drawing.Point(13, 633);
+            this.lblUser.Location = new System.Drawing.Point(9, 411);
+            this.lblUser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUser.Name = "lblUser";
-            this.lblUser.Size = new System.Drawing.Size(47, 20);
+            this.lblUser.Size = new System.Drawing.Size(32, 13);
             this.lblUser.TabIndex = 1;
             this.lblUser.Text = "User:";
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(67, 633);
+            this.lblName.Location = new System.Drawing.Point(45, 411);
+            this.lblName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(51, 20);
+            this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 2;
             this.lblName.Text = "Name";
             // 
+            // btnShowAll
+            // 
+            this.btnShowAll.Location = new System.Drawing.Point(731, 411);
+            this.btnShowAll.Name = "btnShowAll";
+            this.btnShowAll.Size = new System.Drawing.Size(98, 21);
+            this.btnShowAll.TabIndex = 3;
+            this.btnShowAll.Text = "Show History";
+            this.btnShowAll.UseVisualStyleBackColor = true;
+            this.btnShowAll.Click += new System.EventHandler(this.btnShowAll_Click);
+            // 
             // frmAlarmList
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1539, 661);
+            this.ClientSize = new System.Drawing.Size(842, 430);
+            this.Controls.Add(this.btnShowAll);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.lblUser);
             this.Controls.Add(this.dataGridView1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmAlarmList";
-            this.Text = "Form1";
+            this.Text = "Alarm Application";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -91,6 +105,7 @@
         private System.Windows.Forms.Timer tmr;
         private System.Windows.Forms.Label lblUser;
         private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.Button btnShowAll;
     }
 }
 
