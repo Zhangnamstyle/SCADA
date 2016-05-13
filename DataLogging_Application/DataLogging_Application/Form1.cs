@@ -38,6 +38,7 @@ namespace DataLogging_Application
             {
                 setOPC();
                 int countOPC = 0;
+                txtBxOpcVal.Text = "";
                 foreach(OPC obj in opcTags)
                 {
                     double tempVal = opcTags[countOPC].readFromOPC();
@@ -52,6 +53,7 @@ namespace DataLogging_Application
                     cmd.Parameters.AddWithValue("@TAGID", tagID);
                     cmd.Parameters.AddWithValue("@STATUS", opcStatus);
                     dbComm.writeToDB(cmd);
+                    txtBxOpcVal.AppendText("TagID: " + tagID.ToString() + " Value:" + tempVal.ToString() + "\r\n");
                     countOPC++;
                 }
                 

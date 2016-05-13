@@ -33,3 +33,5 @@ C:\Users\Kim\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Applicat
 C:\Users\Kim\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Application\obj\Debug\DataLogging_Application.Form2.resources
 C:\Users\alexa\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Application\obj\Debug\DataLogging_Application.exe.licenses
 C:\Users\alexa\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Application\obj\Debug\DataLogging_Application.frmTagConfig.resources
+C:\Users\Kim\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Application\obj\Debug\DataLogging_Application.frmTagConfig.resources
+C:\Users\Kim\Documents\GitHub\SCADA\DataLogging_Application\DataLogging_Application\obj\Debug\DataLogging_Application.exe.licenses
